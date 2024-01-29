@@ -1,0 +1,30 @@
+name: Publish Package to npmjs
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - packages/fs/**
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      # Setup .npmrc file to publish to npm
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "20.x"
+          registry-url: "https://registry.npmjs.org"
+          cache: "pnpm"
+      - name: Install dependencies
+        working-directory: packages/fs
+        run: pnpm install
+      - name: Publish to npm
+        working-directory: packages/fs
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
