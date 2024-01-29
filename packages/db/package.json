@@ -1,6 +1,6 @@
 {
   "name": "@gasstack/db",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Google Apps Script Database microframework",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -19,7 +19,9 @@
   "scripts": {
     "build": "vite build -c vite.config.ts",
     "build-e2e": "vite build -c vite.config.e2e.ts",
-    "test": "vitest run"
+    "build-docs": "typedoc --plugin typedoc-plugin-markdown --out docs ./index.ts",
+    "test": "vitest run",
+    "prepack": "npm run build"
   },
   "keywords": [
     "gas",
@@ -41,6 +43,8 @@
   "homepage": "https://github.com/gasstack/gasstack#readme",
   "devDependencies": {
     "@types/google-apps-script": "^1.0.79",
+    "typedoc": "^0.25.7",
+    "typedoc-plugin-markdown": "^3.17.1",
     "typescript": "^5.3.3",
     "vite": "^5.0.12",
     "vite-plugin-dts": "^3.7.2",

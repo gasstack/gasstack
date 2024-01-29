@@ -1,14 +1,12 @@
 import {
-  ColumnDefKind,
   ColumnDefVariant,
   ColumnValueType,
   ColumnsMapping,
   Link,
-  PkColumnDef,
-  PropOfTypeNames,
   PropOfVariantNames,
   ReadOnlyColumnDef,
 } from "./schema";
+import { getColumnIndex } from "./utils";
 
 type ColumnDefValueType<
   K extends string | number | symbol,
@@ -36,17 +34,13 @@ export type UpdateRowObject<T> = T extends ColumnsMapping
 
 export type RangeHeaders = { [key: string]: number };
 
-export function getColumnIndex(
-  { type, id: colId }: ColumnDefKind,
-  headers: RangeHeaders = {}
-) {
-  return typeof colId === "number"
-    ? colId
-    : typeof colId === "string"
-    ? headers[colId]
-    : headers["*"];
-}
-
+/**
+ * Creates an object respecting the given T schema using the values from a row array.
+ * @param row Array of values representing a table row.
+ * @param columns Schema definition of the mapped table.
+ * @param headers Headers row used to find the correct column indexes.
+ * @returns Object of type T with the correct values.
+ */
 export function entityFromRow<T>(
   row: ColumnValueType[],
   columns: ColumnsMapping,
@@ -73,6 +67,13 @@ export function entityFromRow<T>(
   }, {}) as RowObject<T>;
 }
 
+/**
+ *
+ * @param entity Object satisfying the schema definition.
+ * @param columns Schema definition of the mapped table.
+ * @param headers Headers row used to find the correct column indexes.
+ * @returns Creates a row array with values taken from an boject respecting the schema definition, positioned at the correct indexes.
+ */
 export function rowFromEntity<T>(
   entity: Partial<RowObject<T>>,
   columns: ColumnsMapping,

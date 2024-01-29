@@ -3,14 +3,12 @@ import {
   RowObject,
   UpdateRowObject,
   entityFromRow,
-  getColumnIndex,
   rowFromEntity,
 } from "./core";
 import {
   ColumnDef,
   ColumnValueType,
   ColumnsMapping,
-  PropOfTypeNames,
   PropOfVariantNames,
   ReadOnlyColumnDef,
   SerialColumnDef,
@@ -19,6 +17,7 @@ import { seqNext } from "./sequences";
 import {
   Context,
   createObjectRef,
+  getColumnIndex,
   getDataRange,
   getFormulas,
   getHeaders,
@@ -39,8 +38,21 @@ export type ContextMetadataStore = {
   set(key: string, value: string): void;
 };
 
-export type ContextRef<T extends ColumnsMapping> = { __brand: "ContextRef<T>" };
+export type ContextRef<T extends ColumnsMapping> = {
+  [Symbol.dispose]: () => void;
+  __brand: "ContextRef<T>";
+};
 
+/**
+ * Creates a table mapped context given a spreadsheet and a range in it. If the schema definition contains string mappings,
+ * the first row is used as an header row. If the schema contains formula mapping, the row below the header (if present)
+ * is used to read the expected formulas and copy them on te future added rows.
+ * @param spreadsheet Google Spreadsheet to use
+ * @param range Range of the table. Could be an entire sheet, a named range or an A1Notation range.
+ * @param columns Schema definition of the mapped table.
+ * @param metadata Context metadata store, used for internal operations (eg.: sequences, indexes). Defaults to a ScriptProperties.
+ * @returns Disposable reference of a typed Context handle.
+ */
 export function createContext<T extends ColumnsMapping>(
   spreadsheet: GoogleAppsScript.Spreadsheet.Spreadsheet,
   range: DataRangeDescriptor,
@@ -123,9 +135,16 @@ export function createContext<T extends ColumnsMapping>(
     formulaIdxes: formulaIdxes,
   };
 
-  return createObjectRef(ctx);
+  return createObjectRef(ctx) as ContextRef<T>;
 }
 
+/**
+ * Reads the mapped table.
+ * @param ctx Context reference
+ * @param offset Number of rows to skip
+ * @param limit Number of rows to return.
+ * @returns Array of mapped row objects.
+ */
 export function read<T extends ColumnsMapping>(
   ctx: ContextRef<T>,
   offset: number = 0,
@@ -158,11 +177,24 @@ export function read<T extends ColumnsMapping>(
   );
 }
 
+/**
+ * Returns the table size.
+ * @param ctx Context reference.
+ * @returns The number of rows of the table.
+ */
 export function count<T extends ColumnsMapping>(ctx: ContextRef<T>): number {
   const pctx: Context<T> = getObject(ctx);
   return pctx.rowCount;
 }
 
+/**
+ * Ineserts item(s) in the table.
+ * @param ctx Context reference
+ * @param inserts Single mapped row object or an array of mapped row objects to be inserted.
+ * @param index Start index of insertion.
+ * @param append If true the insertion happen below the given index and not at the given index.
+ * @returns Inserted row(s) with the computed or generated values correctly assigned.
+ */
 export function insertAt<T extends ColumnsMapping>(
   ctx: ContextRef<T>,
   inserts: NewRowObject<T> | NewRowObject<T>[],
@@ -224,6 +256,13 @@ export function insertAt<T extends ColumnsMapping>(
   return read(ctx, index + appendOffset, rows.length);
 }
 
+/**
+ * Remove item(s) from the table.
+ * @param ctx Context reference.
+ * @param index Start index from which to remove.
+ * @param count Number of items to be removed.
+ * @returns
+ */
 export function deleteAt<T extends ColumnsMapping>(
   ctx: ContextRef<T>,
   index: number,
@@ -237,6 +276,13 @@ export function deleteAt<T extends ColumnsMapping>(
   pctx.rowCount -= count;
 }
 
+/**
+ * Updates item(s) of a table.
+ * @param ctx Context reference.
+ * @param updates Single mapped row object or an array of mapped row objects to be updated.
+ * @param index Start index of update.
+ * @returns Updated row(s) with the computed or generated values correctly assigned.
+ */
 export function updateAt<T extends ColumnsMapping>(
   ctx: ContextRef<T>,
   updates: UpdateRowObject<T> | UpdateRowObject<T>[],

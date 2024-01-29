@@ -1,10 +1,5 @@
 import { ContextRef } from "./context";
-import {
-  ColumnsMapping,
-  PropOfTypeNames,
-  PropOfVariantNames,
-  SerialColumnDef,
-} from "./schema";
+import { ColumnsMapping, PropOfVariantNames, SerialColumnDef } from "./schema";
 import { Context, getObject } from "./utils";
 
 function seqEntryName<T extends ColumnsMapping>(
@@ -22,6 +17,12 @@ function seqEntryName<T extends ColumnsMapping>(
   );
 }
 
+/**
+ * Gets the current value of the sequence.
+ * @param ctx Context reference.
+ * @param key Name of the field sequence.
+ * @returns Current value of the sequence.
+ */
 export function seqCurrent<T extends ColumnsMapping>(
   ctx: ContextRef<T>,
   key: PropOfVariantNames<T, SerialColumnDef<any>>
@@ -31,6 +32,12 @@ export function seqCurrent<T extends ColumnsMapping>(
   return !value ? null : parseInt(value);
 }
 
+/**
+ * Increment the value of the sequence and returns it.
+ * @param ctx Context reference.
+ * @param key Name of the field sequence.
+ * @returns Current value of the sequence.
+ */
 export function seqNext<T extends ColumnsMapping>(
   ctx: ContextRef<T>,
   key: PropOfVariantNames<T, SerialColumnDef<any>>
@@ -44,11 +51,18 @@ export function seqNext<T extends ColumnsMapping>(
   return nextValue;
 }
 
+/**
+ * Resets the value of the sequence to a given value and returns it.
+ * @param ctx Gets the current value of the sequence.
+ * @param key Name of the field sequence.
+ * @param value Value to which reset the sequence.
+ * @returns Current value of the sequence.
+ */
 export function seqReset<T extends ColumnsMapping>(
   ctx: ContextRef<T>,
   key: PropOfVariantNames<T, SerialColumnDef<any>>,
-  value?: number
+  value: number = 0
 ): void {
   const pctx: Context<T> = getObject(ctx);
-  pctx.metadata.set(seqEntryName(ctx, key), `${value ?? 0}`);
+  pctx.metadata.set(seqEntryName(ctx, key), `${value}`);
 }

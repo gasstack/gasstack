@@ -1,6 +1,7 @@
 import { ContextMetadataStore, DataRangeDescriptor } from "./context";
 import { RangeHeaders } from "./core";
 import {
+  ColumnDefKind,
   ColumnsMapping,
   FormulaColumnDef,
   PropOfVariantNames,
@@ -96,6 +97,17 @@ export function hasFormulaColumns<T extends ColumnsMapping>(columns: T) {
   );
 }
 
+export function getColumnIndex(
+  { type, id: colId }: ColumnDefKind,
+  headers: RangeHeaders = {}
+) {
+  return typeof colId === "number"
+    ? colId
+    : typeof colId === "string"
+    ? headers[colId]
+    : headers["*"];
+}
+
 export type Context<T extends ColumnsMapping> = {
   spreadsheet: GoogleAppsScript.Spreadsheet.Spreadsheet;
   rangeDef: DataRangeDescriptor;
@@ -117,18 +129,22 @@ export type Context<T extends ColumnsMapping> = {
 
 const objectStore: [any, any][] = [];
 
-export function createObjectRef(obj: any): any {
-  const ref = {};
+export function createObjectRef(obj: any): Disposable {
+  const ref = {
+    [Symbol.dispose]: () => {
+      freeObjectRef(ref);
+    },
+  };
   objectStore.push([ref, obj]);
 
   return ref;
 }
 
-export function getObject(ref: any): any {
+export function getObject(ref: Disposable): any {
   return objectStore.find(([r]) => r == ref)?.[1];
 }
 
-export function freeObjectRef(ref: any) {
+export function freeObjectRef(ref: Disposable) {
   const idx = objectStore.findIndex(([r]) => r == ref);
   if (idx >= 0) objectStore.splice(idx, 1);
 }

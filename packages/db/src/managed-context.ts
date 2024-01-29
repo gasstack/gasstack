@@ -17,6 +17,7 @@ type ManagedContext<T extends ColumnsMapping> = {
 };
 
 export type ManagedContextRef<T extends ColumnsMapping> = {
+  [Symbol.dispose]: () => void;
   __brand: "ManagedContextRef<T>";
 };
 
@@ -35,6 +36,11 @@ type ManagedContextOperation<T extends ColumnsMapping> = {
   index: number;
 };
 
+/**
+ * Create a managed object able to provide a copy on write semantic to a mapped object row.
+ * @param item Mapped row object.
+ * @returns Managed entity object.
+ */
 export function createEntity<T extends ColumnsMapping>(
   item: RowObject<T>
 ): Entity<T> {
@@ -79,6 +85,12 @@ export function createEntity<T extends ColumnsMapping>(
   return entry;
 }
 
+/**
+ * Create a managed context wrapping a table context able to provide copy on write semantics
+ * to the read rows and transaction-like batch operations.
+ * @param ctx Context reference.
+ * @returns Managed context reference.
+ */
 export function createManagedContext<T extends ColumnsMapping>(
   ctx: ContextRef<T>
 ): ManagedContextRef<T> {
@@ -86,9 +98,16 @@ export function createManagedContext<T extends ColumnsMapping>(
     ctx: ctx,
     store: [],
     operationsLog: [],
-  });
+  }) as ManagedContextRef<T>;
 }
 
+/**
+ *
+ * @param ctx Managed context reference.
+ * @param item Item to be added.
+ * @param index Insertion index. Otherwise the row is appended.
+ * @returns Managed added entity.
+ */
 export function add<T extends ColumnsMapping>(
   ctx: ManagedContextRef<T>,
   item: NewRowObject<T>,
@@ -108,6 +127,12 @@ export function add<T extends ColumnsMapping>(
   return entity.entity as RowObject<T>;
 }
 
+/**
+ * Removes a managed item from the table.
+ * @param ctx Managed context reference.
+ * @param item Item to be removed.
+ * @returns
+ */
 export function remove<T extends ColumnsMapping>(
   ctx: ManagedContextRef<T>,
   item: RowObject<T>
@@ -121,6 +146,11 @@ export function remove<T extends ColumnsMapping>(
   pctx.operationsLog.push({ entity: entity[0], type: "del", index: idx });
 }
 
+/**
+ * Returns the current table items as managed items.
+ * @param ctx Managed context reference.
+ * @returns An array of managed items.
+ */
 export function list<T extends ColumnsMapping>(
   ctx: ManagedContextRef<T>
 ): RowObject<T>[] {
@@ -130,6 +160,10 @@ export function list<T extends ColumnsMapping>(
   return pctx.store.map((p) => p.entity as RowObject<T>);
 }
 
+/**
+ * Reloads the items from the sheet.
+ * @param ctx Managed context reference.
+ */
 export function refresh<T extends ColumnsMapping>(
   ctx: ManagedContextRef<T>
 ): void {
@@ -138,6 +172,10 @@ export function refresh<T extends ColumnsMapping>(
   pctx.store = read(pctx.ctx).map((p) => createEntity(p));
 }
 
+/**
+ * Undo every CRUD operation performed on the context.
+ * @param ctx Managed context reference.
+ */
 export function rollback<T extends ColumnsMapping>(ctx: ManagedContextRef<T>) {
   const pctx: ManagedContext<T> = getObject(ctx);
   let op: ManagedContextOperation<T>;
@@ -153,6 +191,11 @@ export function rollback<T extends ColumnsMapping>(ctx: ManagedContextRef<T>) {
 
   pctx.store.forEach((p) => p.reset());
 }
+
+/**
+ * Confirms and persists every CRUD operation performed on the context.
+ * @param ctx Managed context reference.
+ */
 export function commit<T extends ColumnsMapping>(ctx: ManagedContextRef<T>) {
   const pctx: ManagedContext<T> = getObject(ctx);
   let op: ManagedContextOperation<T>;
@@ -182,6 +225,11 @@ export type ManagedContextGroup = {
   removeContext(ctx: ManagedContextRef<any>): void;
 };
 
+/**
+ * Creates an handler able to control the commit/rollback operations of multiple managed contexts.
+ * @param params Managed context references.
+ * @returns A multiple transaction-like batch operation handler.
+ */
 export function createManagedContextGroup(
   ...params: ManagedContextRef<any>[]
 ): ManagedContextGroup {

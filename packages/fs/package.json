@@ -19,7 +19,8 @@
   "scripts": {
     "build": "vite build -c vite.config.ts",
     "build-e2e": "vite build -c vite.config.e2e.ts",
-    "test": "vitest run"
+    "test": "vitest run",
+    "prepack": "npm run build"
   },
   "keywords": [
     "gas",
