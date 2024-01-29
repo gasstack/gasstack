@@ -1,0 +1,47 @@
+{
+  "name": "@gasstack/fs",
+  "version": "1.0.0",
+  "description": "Google Apps Script drive fs utilities",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gasstack/gasstack.git"
+  },
+  "scripts": {
+    "build": "vite build -c vite.config.ts",
+    "build-e2e": "vite build -c vite.config.e2e.ts",
+    "test": "vitest run"
+  },
+  "keywords": [
+    "gas",
+    "google",
+    "apps",
+    "script",
+    "google apps script",
+    "drive",
+    "file",
+    "fs"
+  ],
+  "author": "Gianmaria Canossa",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gasstack/gasstack/issues"
+  },
+  "homepage": "https://github.com/gasstack/gasstack#readme",
+  "devDependencies": {
+    "@types/google-apps-script": "^1.0.79",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.12",
+    "vite-plugin-dts": "^3.7.2",
+    "vitest": "^1.2.2"
+  }
+}
