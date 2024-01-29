@@ -1,5 +1,10 @@
 import { KVStore, KVStoreValue } from "./type";
 
+/**
+ * Creates a Key-Value store out of a Google App Script property store.
+ * @param properties Google App Script property store (Script, User or Document).
+ * @returns Generic Key-Value store.
+ */
 export const createPropertiesStore = (
   properties: GoogleAppsScript.Properties.Properties
 ): KVStore => {

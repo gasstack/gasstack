@@ -1,4 +1,4 @@
-name: Publish Package to npmjs
+name: Publish @gasstack/db
 on:
   workflow_dispatch:
   push:
