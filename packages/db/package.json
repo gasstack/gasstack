@@ -1,6 +1,6 @@
 {
   "name": "@gasstack/db",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Google Apps Script Database microframework",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
