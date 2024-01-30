@@ -56,6 +56,30 @@ importers:
         specifier: ^1.2.2
         version: 1.2.2
 
+  packages/http:
+    devDependencies:
+      '@types/google-apps-script':
+        specifier: ^1.0.79
+        version: 1.0.79
+      typedoc:
+        specifier: ^0.25.7
+        version: 0.25.7(typescript@5.3.3)
+      typedoc-plugin-markdown:
+        specifier: ^3.17.1
+        version: 3.17.1(typedoc@0.25.7)
+      typescript:
+        specifier: ^5.3.3
+        version: 5.3.3
+      vite:
+        specifier: ^5.0.12
+        version: 5.0.12
+      vite-plugin-dts:
+        specifier: ^3.7.2
+        version: 3.7.2(typescript@5.3.3)(vite@5.0.12)
+      vitest:
+        specifier: ^1.2.2
+        version: 1.2.2
+
   packages/kv:
     devDependencies:
       '@types/google-apps-script':
