@@ -12,6 +12,7 @@
 ### Functions
 
 - [createPropertiesStore](modules.md#createpropertiesstore)
+- [createSpreadsheetStore](modules.md#createspreadsheetstore)
 
 ## Type Aliases
 
@@ -32,7 +33,7 @@
 
 #### Defined in
 
-[src/type.ts:3](https://github.com/gasstack/gasstack/blob/ef577e2/packages/kv/src/type.ts#L3)
+[src/type.ts:3](https://github.com/gasstack/gasstack/blob/42eb5e5/packages/kv/src/type.ts#L3)
 
 ___
 
@@ -42,7 +43,7 @@ ___
 
 #### Defined in
 
-[src/type.ts:1](https://github.com/gasstack/gasstack/blob/ef577e2/packages/kv/src/type.ts#L1)
+[src/type.ts:1](https://github.com/gasstack/gasstack/blob/42eb5e5/packages/kv/src/type.ts#L1)
 
 ## Functions
 
@@ -66,4 +67,28 @@ Generic Key-Value store.
 
 #### Defined in
 
-[src/store.ts:8](https://github.com/gasstack/gasstack/blob/ef577e2/packages/kv/src/store.ts#L8)
+src/prop-store.ts:8
+
+___
+
+### createSpreadsheetStore
+
+▸ **createSpreadsheetStore**(`range`): [`KVStore`](modules.md#kvstore)
+
+Creates a Key-Value store out of a Spreadsheet data range of two columns.
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `range` | `Range` | Spreadsheet range of two columns. |
+
+#### Returns
+
+[`KVStore`](modules.md#kvstore)
+
+Generic Key-Value store.
+
+#### Defined in
+
+src/sheet-store.ts:18

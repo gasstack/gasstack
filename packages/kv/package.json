@@ -1,6 +1,6 @@
 {
   "name": "@gasstack/kv",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Google Apps Script key-value store microframework",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -28,9 +28,9 @@
     "apps",
     "script",
     "google apps script",
-    "drive",
-    "file",
-    "fs"
+    "key",
+    "value",
+    "store"
   ],
   "author": "Gianmaria Canossa",
   "license": "MIT",
