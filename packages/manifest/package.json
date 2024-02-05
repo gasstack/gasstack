@@ -1,0 +1,57 @@
+{
+  "name": "@gasstack/manifest",
+  "version": "0.1.0",
+  "description": "Google Apps Script manifest building and configuration utilities.",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gasstack/gasstack.git"
+  },
+  "scripts": {
+    "build": "vite build -c vite.config.ts",
+    "build-e2e": "vite build -c vite.config.e2e.ts",
+    "build-docs": "typedoc --plugin typedoc-plugin-markdown --out docs ./index.ts",
+    "test": "vitest run",
+    "prepack": "npm run build"
+  },
+  "keywords": [
+    "gas",
+    "google",
+    "apps",
+    "script",
+    "google apps script",
+    "manifest",
+    "addons",
+    "plugin",
+    "rollup",
+    "rollup-plugin",
+    "vite",
+    "vite-plugin"
+  ],
+  "author": "Gianmaria Canossa",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gasstack/gasstack/issues"
+  },
+  "homepage": "https://github.com/gasstack/gasstack#readme",
+  "devDependencies": {
+    "@types/google-apps-script": "^1.0.79",
+    "@types/node": "^20.11.16",
+    "rollup": "^4.9.6",
+    "typedoc": "^0.25.7",
+    "typedoc-plugin-markdown": "^3.17.1",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.12",
+    "vite-plugin-dts": "^3.7.2",
+    "vite-plugin-node-polyfills": "^0.19.0",
+    "vitest": "^1.2.2"
+  }
+}

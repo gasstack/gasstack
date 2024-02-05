@@ -4,7 +4,91 @@ export type ManifestResource = {
   urlFetchWhitelist?: AllowedUrlPrefix[];
 };
 
-export type OauthScopes = `https://www.googleapis.com/auth/${string}`;
+// https://developers.google.com/identity/protocols/oauth2/scopes#script
+// https://developers.google.com/apps-script/add-ons/concepts/workspace-scopes
+export type OauthScopesAppScriptKeys =
+  | "admin.directory.group"
+  | "admin.directory.user"
+  | "documents"
+  | "drive"
+  | "forms"
+  | "forms.currentonly"
+  | "groups"
+  | "script.deployments"
+  | "script.deployments.readonly"
+  | "script.metrics"
+  | "script.processes"
+  | "script.projects"
+  | "script.projects.readonly"
+  | "spreadsheets"
+  | "userinfo.email"
+  | "script.external_request"
+  | "script.locale"
+  | "script.scriptapp"
+  | "workspace.linkpreview"
+  | "workspace.linkcreate";
+
+export type OauthScopesCalendarKeys =
+  | "calendar"
+  | "calendar.events"
+  | "calendar.events.readonly"
+  | "calendar.readonly"
+  | "calendar.settings.readonly"
+  | "calendar.addons.execute"
+  | "calendar.addons.current.event.read"
+  | "calendar.addons.current.event.write";
+
+export type OauthScopesDriveKeys =
+  | "drive"
+  | "drive.appdata"
+  | "drive.file"
+  | "drive.metadata"
+  | "drive.metadata.readonl"
+  | "drive.photos.readonly"
+  | "drive.readonly"
+  | "drive.scripts"
+  | "drive.activity"
+  | "drive.activity.readonly"
+  | "drive.addons.metadata.readonly";
+
+export type OauthScopesGmailKeys =
+  | "gmail.addons.current.action.compose"
+  | "gmail.addons.current.message.action"
+  | "gmail.addons.current.message.metadata"
+  | "gmail.addons.current.message.readonly"
+  | "gmail.compose"
+  | "gmail.insert"
+  | "gmail.labels"
+  | "gmail.metadata"
+  | "gmail.modify"
+  | "gmail.readonly"
+  | "gmail.send"
+  | "gmail.settings.basic"
+  | "gmail.settings.sharing";
+
+export type OauthScopesDocsKeys =
+  | "documents"
+  | "documents.readonly"
+  | "documents.currentonly";
+export type OauthScopesSheetsKeys =
+  | "spreadsheets"
+  | "spreadsheets.readonly"
+  | "spreadsheets.currentonly";
+export type OauthScopesSlidesKeys =
+  | "presentations"
+  | "presentations.readonly"
+  | "presentations.currentonly";
+
+export type OauthScopesKeys =
+  | OauthScopesAppScriptKeys
+  | OauthScopesCalendarKeys
+  | OauthScopesDriveKeys
+  | OauthScopesGmailKeys
+  | OauthScopesDocsKeys
+  | OauthScopesSheetsKeys
+  | OauthScopesSlidesKeys;
+
+export type OauthScopes = `https://www.googleapis.com/auth/${OauthScopesKeys}`;
 
 export type UrlString = `https://${string}`;
 export type AllowedUrlPrefix = `${UrlString}/`;
@@ -19,17 +103,17 @@ export type AddOnsResource = {
   slides?: EditorResource;
 };
 
+export type RunFunctionTrigger = {
+  runFunction: string;
+};
+
 export type HomepageTrigger = {
   enabled?: boolean;
 } & RunFunctionTrigger;
 
 export type HomepageTriggerFn = (
   e: GoogleAppsScript.Addons.EventObject
-) => GoogleAppsScript.Card_Service.Card | GoogleAppsScript.Card_Service.Card[];
-
-export type RunFunctionTrigger = {
-  runFunction: string;
-};
+) => GoogleAppsScript.Card_Service.Card[];
 
 export type AddOnResource = {
   homepageTrigger?: HomepageTrigger;
@@ -39,13 +123,13 @@ export type CommonResource = AddOnResource & {
   layoutProperties?: LayoutProperties;
   logoUrl: UrlString;
   name: string;
-  openLinkUrlPrefixes?: AllowedUrlPrefix[]; //TODO required if OpenLink or text widgets with anchor tags
+  openLinkUrlPrefixes?: AllowedUrlPrefix[];
   universalActions?: UniversalAction[];
   useLocaleFromApp?: boolean;
 };
 
 export type LayoutProperties = {
-  primaryColor?: string; //TODO css #rrggbb
+  primaryColor?: string;
   secondaryColor?: string;
 };
 
@@ -65,7 +149,7 @@ export type UniversalActionFn = (
 export type CalendarResource = AddOnResource & {
   createSettingsUrlFunction?: string;
   conferenceSolution?: CalendarConferenceSolution[];
-  currentEventAccess?: CurrentcalendarEventAccess;
+  currentEventAccess?: CurrentCalendarEventAccess;
   eventOpenTrigger?: RunFunctionTrigger;
   eventUpdateTrigger?: RunFunctionTrigger;
   eventAttachmentTrigger?: CalendarEventAttachmentTrigger;
@@ -75,7 +159,7 @@ export type CalendarSettingsUrlFn = () => UrlString;
 
 export type CalendarConferenceSolution = {
   id: string;
-  logoUrl: UrlString;
+  logoUrl?: UrlString;
   name: string;
   onCreateFunction: string;
 };
@@ -88,7 +172,7 @@ export type CalendarEventFn = (
   e: GoogleAppsScript.Addons.CalendarEventObject
 ) => GoogleAppsScript.Card_Service.Card[];
 
-export type CurrentcalendarEventAccess =
+export type CurrentCalendarEventAccess =
   | "METADATA"
   | "READ"
   | "WRITE"
@@ -112,11 +196,11 @@ export type GmailResource = AddOnResource & {
 };
 
 export type GmailComposeTrigger = {
-  draftAccess: DraftAccess;
+  draftAccess?: GmailDraftAccess;
   selectActions: GmailSelectAction[];
 };
 
-export type DraftAccess = "NONE" | "METADATA";
+export type GmailDraftAccess = "NONE" | "METADATA";
 
 export type GmailSelectAction = {
   text: string;
@@ -137,15 +221,15 @@ export type GmailContextualTriggerFn = (
 
 export type EditorResource = AddOnResource & {
   onFileScopeGrantedTrigger?: RunFunctionTrigger;
-  linkPreviewTriggers?: LinkPreviewTriggers[];
-  createActionTriggers?: CreateActionTriggers[];
+  linkPreviewTriggers?: EditorLinkPreviewTriggers[];
+  createActionTriggers?: EditorCreateActionTriggers[];
 };
 
 export type EditorFileScopeGrantFn = () => GoogleAppsScript.Card_Service.Card[];
 
-export type LinkPreviewTriggers = {
+export type EditorLinkPreviewTriggers = {
   labelText: string;
-  localizedLabelText?: Record<string, string>; //TODO: en-US -> labelText
+  localizedLabelText?: Record<string, string>;
   logoUrl?: UrlString;
   patterns: UriPattern[];
 } & RunFunctionTrigger;
@@ -155,14 +239,14 @@ export type LinkPreviewTriggerFn = (
 ) => GoogleAppsScript.Card_Service.Card;
 
 export type UriPattern = {
-  hostPattern: string; //TODO: *.domain or domain.ddd
+  hostPattern: string;
   pathPrefix?: string;
 };
 
-export type CreateActionTriggers = {
+export type EditorCreateActionTriggers = {
   id: string;
   labelText: string;
-  localizedLabelText: Record<string, string>; //TODO: en-US -> labelText
+  localizedLabelText?: Record<string, string>; //TODO: en-US -> labelText
   logoUrl?: UrlString;
 } & RunFunctionTrigger;
 
