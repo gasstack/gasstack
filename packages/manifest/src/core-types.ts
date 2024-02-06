@@ -67,7 +67,7 @@ export type OauthScopesBuilder = {
   /**
    * Add scopes enablig programmatic triggers creation and manipulation.
    */
-  withTriggerMangement(): OauthScopesBuilder;
+  withTriggerManagement(): OauthScopesBuilder;
   /**
    * Adds scopes granted to the addon.
    * @param scopes List of scopes keys (name of the scope without the common base url).

@@ -9,7 +9,7 @@ describe("Manifest production", () => {
   test("basic creation", () => {
     const result = defineManifest((builder) =>
       builder
-        .withScopes((p) => p.withTriggerMangement().withUrlFetch())
+        .withScopes((p) => p.withTriggerManagement().withUrlFetch())
         .withAddOn("Test", "https://image.org", test_home, (p) =>
           p.forGmail().theme("#ff0000")
         )

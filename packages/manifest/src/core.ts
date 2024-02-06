@@ -37,9 +37,6 @@ import {
   UrlString,
 } from "./types";
 
-//TODO: check requirements and invariants in values
-//TODO: produce scopes also
-
 function setOf<T>(items: T[]): T[] {
   return items.reduce((acc, p) => (acc.includes(p) ? acc : [...acc, p]), []);
 }
@@ -413,7 +410,7 @@ function oauthScopesBuilder(manifest: ManifestResource): OauthScopesBuilder {
       addToOauthScopes(manifest, "script.external_request");
       return this;
     },
-    withTriggerMangement() {
+    withTriggerManagement() {
       addToOauthScopes(manifest, "script.scriptapp");
       return this;
     },

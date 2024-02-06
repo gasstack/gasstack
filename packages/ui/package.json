@@ -1,7 +1,7 @@
 {
-  "name": "@gasstack/jsx",
+  "name": "@gasstack/ui",
   "version": "0.1.0",
-  "description": "Google Apps Script jsx support for UI and Card services.",
+  "description": "Google Apps Script ui support for UI and Card services.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
@@ -28,9 +28,8 @@
     "apps",
     "script",
     "google apps script",
-    "jsx",
-    "tsx",
-    "react"
+    "ui",
+    "addon"
   ],
   "author": "Gianmaria Canossa",
   "license": "MIT",

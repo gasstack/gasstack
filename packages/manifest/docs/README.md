@@ -17,7 +17,7 @@ Export a constant created with the fluent manifest configuration:
 ```ts
 export const CONFIG = defineManifest((builder) =>
   builder
-    .withScopes((p) => p.withTriggerMangement())
+    .withScopes((p) => p.withTriggerManagement())
     .withAddOn("Test", "https://logo.org", test_home, (b) =>
       b.forCalendar((t) => t.withCurrentEventAccess("READ_WRITE")).forDrive()
     )

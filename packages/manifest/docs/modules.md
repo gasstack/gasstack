@@ -94,7 +94,7 @@
 
 #### Defined in
 
-[src/core-types.ts:78](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/core-types.ts#L78)
+[src/core-types.ts:78](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/core-types.ts#L78)
 
 ___
 
@@ -110,7 +110,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:118](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/types.ts#L118)
+[src/types.ts:118](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/types.ts#L118)
 
 ___
 
@@ -132,7 +132,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:96](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/types.ts#L96)
+[src/types.ts:96](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/types.ts#L96)
 
 ___
 
@@ -142,7 +142,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:94](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/types.ts#L94)
+[src/types.ts:94](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/types.ts#L94)
 
 ___
 
@@ -159,7 +159,7 @@ ___
 
 #### Defined in
 
-[src/core-types.ts:20](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/core-types.ts#L20)
+[src/core-types.ts:20](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/core-types.ts#L20)
 
 ___
 
@@ -179,7 +179,7 @@ ___
 
 #### Defined in
 
-[src/core-types.ts:177](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/core-types.ts#L177)
+[src/core-types.ts:177](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/core-types.ts#L177)
 
 ___
 
@@ -204,7 +204,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:167](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/types.ts#L167)
+[src/types.ts:167](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/types.ts#L167)
 
 ___
 
@@ -223,7 +223,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:160](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/types.ts#L160)
+[src/types.ts:160](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/types.ts#L160)
 
 ___
 
@@ -233,7 +233,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:181](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/types.ts#L181)
+[src/types.ts:181](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/types.ts#L181)
 
 ___
 
@@ -257,7 +257,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:171](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/types.ts#L171)
+[src/types.ts:171](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/types.ts#L171)
 
 ___
 
@@ -267,7 +267,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:149](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/types.ts#L149)
+[src/types.ts:149](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/types.ts#L149)
 
 ___
 
@@ -285,7 +285,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:158](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/types.ts#L158)
+[src/types.ts:158](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/types.ts#L158)
 
 ___
 
@@ -302,7 +302,7 @@ ___
 
 #### Defined in
 
-[src/rollup-plugin.ts:6](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/rollup-plugin.ts#L6)
+[src/rollup-plugin.ts:6](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/rollup-plugin.ts#L6)
 
 ___
 
@@ -312,7 +312,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:122](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/types.ts#L122)
+[src/types.ts:122](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/types.ts#L122)
 
 ___
 
@@ -328,7 +328,7 @@ ___
 
 #### Defined in
 
-[src/core-types.ts:210](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/core-types.ts#L210)
+[src/core-types.ts:210](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/core-types.ts#L210)
 
 ___
 
@@ -345,7 +345,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:213](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/types.ts#L213)
+[src/types.ts:213](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/types.ts#L213)
 
 ___
 
@@ -361,7 +361,7 @@ ___
 
 #### Defined in
 
-[src/core-types.ts:252](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/core-types.ts#L252)
+[src/core-types.ts:252](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/core-types.ts#L252)
 
 ___
 
@@ -377,7 +377,7 @@ ___
 
 #### Defined in
 
-[src/core-types.ts:298](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/core-types.ts#L298)
+[src/core-types.ts:298](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/core-types.ts#L298)
 
 ___
 
@@ -387,7 +387,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:175](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/types.ts#L175)
+[src/types.ts:175](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/types.ts#L175)
 
 ___
 
@@ -411,7 +411,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:189](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/types.ts#L189)
+[src/types.ts:189](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/types.ts#L189)
 
 ___
 
@@ -421,7 +421,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:185](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/types.ts#L185)
+[src/types.ts:185](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/types.ts#L185)
 
 ___
 
@@ -439,7 +439,7 @@ ___
 
 #### Defined in
 
-[src/core-types.ts:260](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/core-types.ts#L260)
+[src/core-types.ts:260](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/core-types.ts#L260)
 
 ___
 
@@ -457,7 +457,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:253](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/types.ts#L253)
+[src/types.ts:253](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/types.ts#L253)
 
 ___
 
@@ -467,7 +467,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:246](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/types.ts#L246)
+[src/types.ts:246](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/types.ts#L246)
 
 ___
 
@@ -485,7 +485,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:228](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/types.ts#L228)
+[src/types.ts:228](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/types.ts#L228)
 
 ___
 
@@ -495,7 +495,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:230](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/types.ts#L230)
+[src/types.ts:230](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/types.ts#L230)
 
 ___
 
@@ -505,7 +505,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:222](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/types.ts#L222)
+[src/types.ts:222](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/types.ts#L222)
 
 ___
 
@@ -522,7 +522,7 @@ ___
 
 #### Defined in
 
-[src/core-types.ts:27](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/core-types.ts#L27)
+[src/core-types.ts:27](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/core-types.ts#L27)
 
 ___
 
@@ -539,7 +539,7 @@ ___
 
 #### Defined in
 
-[src/core-types.ts:226](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/core-types.ts#L226)
+[src/core-types.ts:226](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/core-types.ts#L226)
 
 ___
 
@@ -556,7 +556,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:198](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/types.ts#L198)
+[src/types.ts:198](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/types.ts#L198)
 
 ___
 
@@ -580,7 +580,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:218](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/types.ts#L218)
+[src/types.ts:218](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/types.ts#L218)
 
 ___
 
@@ -590,7 +590,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:203](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/types.ts#L203)
+[src/types.ts:203](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/types.ts#L203)
 
 ___
 
@@ -600,7 +600,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:193](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/types.ts#L193)
+[src/types.ts:193](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/types.ts#L193)
 
 ___
 
@@ -610,7 +610,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:205](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/types.ts#L205)
+[src/types.ts:205](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/types.ts#L205)
 
 ___
 
@@ -628,7 +628,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:209](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/types.ts#L209)
+[src/types.ts:209](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/types.ts#L209)
 
 ___
 
@@ -638,7 +638,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:110](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/types.ts#L110)
+[src/types.ts:110](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/types.ts#L110)
 
 ___
 
@@ -662,7 +662,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:114](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/types.ts#L114)
+[src/types.ts:114](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/types.ts#L114)
 
 ___
 
@@ -679,7 +679,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:131](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/types.ts#L131)
+[src/types.ts:131](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/types.ts#L131)
 
 ___
 
@@ -703,7 +703,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:237](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/types.ts#L237)
+[src/types.ts:237](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/types.ts#L237)
 
 ___
 
@@ -719,7 +719,7 @@ ___
 
 #### Defined in
 
-[src/core-types.ts:280](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/core-types.ts#L280)
+[src/core-types.ts:280](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/core-types.ts#L280)
 
 ___
 
@@ -737,7 +737,7 @@ ___
 
 #### Defined in
 
-[src/core-types.ts:36](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/core-types.ts#L36)
+[src/core-types.ts:36](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/core-types.ts#L36)
 
 ___
 
@@ -755,7 +755,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:1](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/types.ts#L1)
+[src/types.ts:1](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/types.ts#L1)
 
 ___
 
@@ -765,7 +765,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:91](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/types.ts#L91)
+[src/types.ts:91](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/types.ts#L91)
 
 ___
 
@@ -775,7 +775,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:9](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/types.ts#L9)
+[src/types.ts:9](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/types.ts#L9)
 
 ___
 
@@ -788,12 +788,12 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `withScopes` | (...`scopes`: [`OauthScopesKeys`](modules.md#oauthscopeskeys)[]) => [`OauthScopesBuilder`](modules.md#oauthscopesbuilder) |
-| `withTriggerMangement` | () => [`OauthScopesBuilder`](modules.md#oauthscopesbuilder) |
+| `withTriggerManagement` | () => [`OauthScopesBuilder`](modules.md#oauthscopesbuilder) |
 | `withUrlFetch` | () => [`OauthScopesBuilder`](modules.md#oauthscopesbuilder) |
 
 #### Defined in
 
-[src/core-types.ts:62](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/core-types.ts#L62)
+[src/core-types.ts:62](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/core-types.ts#L62)
 
 ___
 
@@ -803,7 +803,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:31](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/types.ts#L31)
+[src/types.ts:31](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/types.ts#L31)
 
 ___
 
@@ -813,7 +813,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:69](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/types.ts#L69)
+[src/types.ts:69](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/types.ts#L69)
 
 ___
 
@@ -823,7 +823,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:41](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/types.ts#L41)
+[src/types.ts:41](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/types.ts#L41)
 
 ___
 
@@ -833,7 +833,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:54](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/types.ts#L54)
+[src/types.ts:54](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/types.ts#L54)
 
 ___
 
@@ -843,7 +843,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:82](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/types.ts#L82)
+[src/types.ts:82](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/types.ts#L82)
 
 ___
 
@@ -853,7 +853,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:73](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/types.ts#L73)
+[src/types.ts:73](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/types.ts#L73)
 
 ___
 
@@ -863,7 +863,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:77](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/types.ts#L77)
+[src/types.ts:77](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/types.ts#L77)
 
 ___
 
@@ -879,7 +879,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:106](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/types.ts#L106)
+[src/types.ts:106](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/types.ts#L106)
 
 ___
 
@@ -895,7 +895,7 @@ ___
 
 #### Defined in
 
-[src/core-types.ts:243](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/core-types.ts#L243)
+[src/core-types.ts:243](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/core-types.ts#L243)
 
 ___
 
@@ -905,7 +905,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:136](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/types.ts#L136)
+[src/types.ts:136](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/types.ts#L136)
 
 ___
 
@@ -921,7 +921,7 @@ ___
 
 #### Defined in
 
-[src/core-types.ts:162](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/core-types.ts#L162)
+[src/core-types.ts:162](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/core-types.ts#L162)
 
 ___
 
@@ -945,7 +945,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:145](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/types.ts#L145)
+[src/types.ts:145](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/types.ts#L145)
 
 ___
 
@@ -962,7 +962,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:241](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/types.ts#L241)
+[src/types.ts:241](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/types.ts#L241)
 
 ___
 
@@ -972,7 +972,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:93](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/types.ts#L93)
+[src/types.ts:93](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/types.ts#L93)
 
 ## Functions
 
@@ -992,7 +992,7 @@ ___
 
 #### Defined in
 
-[src/core.ts:456](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/core.ts#L456)
+[src/core.ts:453](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/core.ts#L453)
 
 ___
 
@@ -1016,4 +1016,4 @@ Rollup/Vite plugin
 
 #### Defined in
 
-[src/rollup-plugin.ts:18](https://github.com/gasstack/gasstack/blob/64fff25/packages/manifest/src/rollup-plugin.ts#L18)
+[src/rollup-plugin.ts:18](https://github.com/gasstack/gasstack/blob/1198143/packages/manifest/src/rollup-plugin.ts#L18)

@@ -6,9 +6,6 @@
     "module": "ESNext",
     "skipLibCheck": true,
 
-    "moduleResolution": "bundler",
-
-    "jsx": "react-jsx",
-    "jsxImportSource": "./src"
+    "moduleResolution": "bundler"
   }
 }

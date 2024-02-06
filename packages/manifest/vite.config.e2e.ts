@@ -5,7 +5,7 @@ import { test_home } from "./main.e2e";
 
 const manifest = defineManifest((builder) =>
   builder
-    .withScopes((p) => p.withTriggerMangement())
+    .withScopes((p) => p.withTriggerManagement())
     .withAddOn("Test", "https://logo.org", test_home, (b) =>
       b.forCalendar((t) => t.withCurrentEventAccess("READ_WRITE")).forDrive()
     )
