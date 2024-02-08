@@ -27,5 +27,3 @@ export const FixedFooter: uiFC<
 
   return footer;
 };
-
-export default FixedFooter;

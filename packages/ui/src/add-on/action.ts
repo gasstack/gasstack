@@ -1,7 +1,12 @@
+import { fnName } from "./utils";
 import { uiFC } from "../core";
-import { UiCallbackSetter } from "./utils";
+import {
+  ActionResponseTypes,
+  UiCallbackFn,
+  UiCallbackSetter,
+} from "./callbacks";
 
-export type ActionProps = {
+export type ActionProps<T extends ActionResponseTypes = any> = {
   /** Sets the loading indicator that displays while the action is in progress. */
   loadIndicator?: GoogleAppsScript.Card_Service.LoadIndicator;
   /**
@@ -15,23 +20,26 @@ export type ActionProps = {
       /**
        * Setter obtained from a UiCallback provider, result of the configureUiCallbacks function.
        */
-      callback: UiCallbackSetter;
+      callback: UiCallbackSetter<T>;
     }
   | {
       /** Sets the name of the callback function to be called. */
-      fnName: string;
+      fn: UiCallbackFn<T>;
       /** Allows custom parameters to be passed to the callback function. */
       parameters?: Record<string, string>;
     }
 );
+
+export type UiAction<T extends ActionResponseTypes> =
+  GoogleAppsScript.Card_Service.Action & T;
 
 /**
  * Creates a Action object.
  * @param props Props to build the Action.
  * @returns Action object.
  */
-export const Action: uiFC<GoogleAppsScript.Card_Service.Action, ActionProps> = (
-  props
+export const Action = (<T extends ActionResponseTypes>(
+  props: ActionProps<T>
 ) => {
   const action = CardService.newAction();
 
@@ -42,11 +50,12 @@ export const Action: uiFC<GoogleAppsScript.Card_Service.Action, ActionProps> = (
   if ("callback" in props) {
     props.callback(action);
   } else {
-    action.setFunctionName(props.fnName);
+    action.setFunctionName(fnName(props.fn));
     if (props.parameters) action.setParameters(props.parameters);
   }
 
-  return action;
-};
-
-export default Action;
+  return action as UiAction<T>;
+}) satisfies uiFC<
+  UiAction<ActionResponseTypes>,
+  ActionProps<ActionResponseTypes>
+>;

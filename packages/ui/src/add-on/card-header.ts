@@ -36,5 +36,3 @@ export const CardHeader: uiFC<
 
   return header;
 };
-
-export default CardHeader;

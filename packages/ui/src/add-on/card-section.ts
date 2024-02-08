@@ -36,5 +36,3 @@ export const CardSection: uiFC<
 
   return section;
 };
-
-export default CardSection;
