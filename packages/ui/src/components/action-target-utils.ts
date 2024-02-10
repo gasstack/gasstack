@@ -1,7 +1,6 @@
 import { ActionTarget } from "../types";
 import { RoutedAction } from "./action";
 
-//TODO: use in each actiontarget props
 export type ActionTargetProps = {
   action:
     | {
@@ -35,7 +34,6 @@ export type ActionTargetProps = {
       };
 };
 
-//TODO: use in each actiontarget
 export function withAction<T extends ActionTarget>(
   target: T,
   props: ActionTargetProps

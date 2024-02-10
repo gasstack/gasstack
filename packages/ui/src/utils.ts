@@ -2,6 +2,7 @@ export type UrlString = `https://${string}`;
 export type EmailString = `${string}@${string}.${string}`;
 export type MimeString = `${string}/${string}`;
 export type ImageBase64 = `data:image/${string};base64,${string}`;
+export type ColorRGB = `#${string}`;
 
 /**
  * Return a base64 html data string of an image stored in google Drive.

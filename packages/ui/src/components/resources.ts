@@ -96,3 +96,16 @@ export function requestAuthorization(
 
   exception.throwException();
 }
+
+/**
+ * utocomplete suggestions to supplement a TextInput widget.
+ * @param suggestions Text suggestions.
+ * @returns Suggestions object.
+ */
+export function suggestions(suggestions: string[]) {
+  const item = CardService.newSuggestions();
+
+  item.addSuggestions(suggestions);
+
+  return item;
+}

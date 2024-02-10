@@ -1,7 +1,7 @@
 import { ResponseFC } from "../types";
 import { EmailString, ifDef } from "../utils";
 
-type ActionResponseBase = {
+export type ActionResponseProps = {
   /**
    * Action to open a link with some options.
    */
@@ -19,27 +19,6 @@ type ActionResponseBase = {
    */
   stateChanged?: boolean;
 };
-export type ActionResponseProps = ActionResponseBase &
-  (
-    | {
-        /**
-         * Action to open a link with some options.
-         */
-        openLink: GoogleAppsScript.Card_Service.OpenLink;
-      }
-    | {
-        /**
-         * Navigation object that controls card navigation.
-         */
-        navigation: GoogleAppsScript.Card_Service.Navigation;
-      }
-    | {
-        /**
-         * Displays a CardNotification.
-         */
-        notification: GoogleAppsScript.Card_Service.Notification;
-      }
-  );
 
 /**
  * Creates a ActionResponse object.

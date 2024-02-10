@@ -1,5 +1,6 @@
 import { ActionFC, FC } from "../types";
 import { ImageBase64, UrlString, ifDef } from "../utils";
+import { ActionTargetProps, withAction } from "./action-target-utils";
 
 export type CardProps = {
   /** Sets the name for this card. The name can be used for navigation. */
@@ -20,7 +21,7 @@ export type CardProps = {
    */
   peekHeader?: GoogleAppsScript.Card_Service.CardHeader;
   /** Adds a CardAction to this Card. */
-  actions?: GoogleAppsScript.Card_Service.CardAction[]; //TODO: maybe enforce with builder or specific uiCallback
+  actions?: GoogleAppsScript.Card_Service.CardAction[];
   /** Adds a section to this card. You can't add more than 100 sections to a card. */
   sections?: GoogleAppsScript.Card_Service.CardSection[];
 };
@@ -58,9 +59,13 @@ export const CardAction: ActionFC<
   {
     /** Sets the menu text for this action. */
     text: string;
-  }
+  } & ActionTargetProps
 > = (props) => {
-  return CardService.newCardAction().setText(props.text);
+  const item = CardService.newCardAction().setText(props.text);
+
+  withAction(item, props);
+
+  return item;
 };
 
 export type CardSectionProps = {
@@ -132,4 +137,12 @@ export const CardHeader: FC<
   ifDef(props.imageAltText, cmp.setImageAltText);
 
   return cmp;
+};
+
+/**
+ * A horizontal divider.
+ * @returns The Divider object.
+ */
+export const Divider: FC<GoogleAppsScript.Card_Service.Divider, void> = () => {
+  return CardService.newDivider();
 };

@@ -1,5 +1,20 @@
 import { FC } from "../types";
-import { ImageBase64, UrlString, ifDef } from "../utils";
+import { ColorRGB, ImageBase64, UrlString, ifDef } from "../utils";
+import { ActionTargetProps, withAction } from "./action-target-utils";
+
+function border(
+  color: `#${string}`,
+  radius?: number,
+  type?: GoogleAppsScript.Card_Service.BorderType
+) {
+  const item = CardService.newBorderStyle();
+
+  if (radius !== undefined) item.setCornerRadius(radius);
+  if (color) item.setStrokeColor(color);
+  if (type) item.setType(type);
+
+  return item;
+}
 
 export type GridProps = {
   /** Sets the title text of the grid. The text must be a plain string with no formatting. */
@@ -7,10 +22,15 @@ export type GridProps = {
   /** GridItems of the grid. */
   items: GoogleAppsScript.Card_Service.GridItem[];
   /** Sets the border style applied to each grid item. Default is NO_BORDER. */
-  border?: GoogleAppsScript.Card_Service.BorderStyle;
+  border?: {
+    /** The color in #RGB format to be applied to the border. */
+    color: ColorRGB;
+    /** The corner radius to be applied to the border. */
+    radius?: number;
+  };
   /** The number of columns to display in the grid. If shown in the right side panel, you can display 1-2 columns and the default value is 1. If shown in a dialog, you can display 2-3 columns and the default value is 2. */
   columnsCount?: number;
-};
+} & ActionTargetProps;
 
 /**
  * An organized grid to display a collection of grid items.
@@ -23,17 +43,21 @@ export const Grid: FC<GoogleAppsScript.Card_Service.Grid, GridProps> = (
   const cmp = CardService.newGrid();
 
   ifDef(props.title, cmp.setTitle);
-  ifDef(props.border, cmp.setBorderStyle);
+  ifDef(props.border, (b) =>
+    cmp.setBorderStyle(border(b.color, b.radius, CardService.BorderType.STROKE))
+  );
   ifDef(props.columnsCount, cmp.setNumColumns);
 
   ifDef(props.items, (i) => i.forEach((p) => cmp.addItem(p)));
+
+  withAction(cmp, props);
 
   return cmp;
 };
 
 export type GridItemProps = {
   /** Sets the identifier for the grid item. When a user clicks this grid item, this ID is returned in the parent grid's on_click call back parameters. */
-  id: string; //TODO: check for callback arg structuring
+  id: string;
   /** Sets the title text of the grid item. */
   title: string;
   /** Sets the subtitle of the grid item. */
@@ -72,9 +96,19 @@ export type ImageComponentProps = {
   /** Sets the alternative text of the URL which is used for accessibility. */
   altText?: string;
   /** Sets the border style applied to the image. */
-  border?: GoogleAppsScript.Card_Service.BorderStyle;
-  /** Sets the crop style for the image. */
-  crop?: GoogleAppsScript.Card_Service.ImageCropStyle;
+  border?: {
+    /** The color in #RGB format to be applied to the border. */
+    color: ColorRGB;
+    /** The corner radius to be applied to the border. */
+    radius?: number;
+  };
+  /** Crop style that can be applied to image components. You can't set the size of an image or resize it, but you can crop the image. */
+  crop?: {
+    /** Sets the crop type for the image. Default is SQUARE. */
+    type: GoogleAppsScript.Card_Service.ImageCropType;
+    /** Sets the aspect ratio to use if the crop type is RECTANGLE_CUSTOM. The ratio must be a positive value. */
+    aspectRatio?: number;
+  };
   /** Sets the image to use by providing its URL or data string. */
   url: UrlString | ImageBase64;
 };
@@ -93,8 +127,19 @@ export const ImageComponent: FC<
   item.setImageUrl(props.url);
 
   ifDef(props.altText, item.setAltText);
-  ifDef(props.border, item.setBorderStyle);
-  ifDef(props.crop, item.setCropStyle);
+  ifDef(props.border, (b) =>
+    item.setBorderStyle(
+      border(b.color, b.radius, CardService.BorderType.STROKE)
+    )
+  );
+  ifDef(props.crop, (crop) => {
+    const cs = CardService.newImageCropStyle();
+
+    cs.setImageCropType(crop.type);
+    ifDef(crop.aspectRatio, cs.setAspectRatio);
+
+    item.setCropStyle(cs);
+  });
 
   return item;
 };

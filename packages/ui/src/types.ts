@@ -1,6 +1,7 @@
 export type ResourceComponent =
   | GoogleAppsScript.Card_Service.Attachment
-  | GoogleAppsScript.Card_Service.Suggestions;
+  | GoogleAppsScript.Card_Service.Suggestions
+  | GoogleAppsScript.Card_Service.AuthorizationException;
 
 export type ButtonComponent =
   | GoogleAppsScript.Card_Service.Button
@@ -25,12 +26,12 @@ export type StyleComponent =
 export type DisplayComponent =
   | GoogleAppsScript.Card_Service.IconImage
   | GoogleAppsScript.Card_Service.ImageComponent
-  | GoogleAppsScript.Card_Service.TextParagraph;
+  | GoogleAppsScript.Card_Service.TextParagraph
+  | GoogleAppsScript.Card_Service.DecoratedText;
 
 export type InputComponent =
   | GoogleAppsScript.Card_Service.DatePicker
   | GoogleAppsScript.Card_Service.DateTimePicker
-  | GoogleAppsScript.Card_Service.DecoratedText
   | GoogleAppsScript.Card_Service.SelectionInput
   | GoogleAppsScript.Card_Service.Switch
   | GoogleAppsScript.Card_Service.TextInput
@@ -53,7 +54,6 @@ export type ActionComponent =
 
 export type ResponseComponent =
   | GoogleAppsScript.Card_Service.ActionResponse
-  //TODO: check | GoogleAppsScript.Card_Service.AuthorizationException
   | GoogleAppsScript.Card_Service.CalendarEventActionResponse
   | GoogleAppsScript.Card_Service.ComposeActionResponse
   | GoogleAppsScript.Card_Service.DriveItemsSelectedActionResponse
