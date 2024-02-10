@@ -1,4 +1,4 @@
-import { fnName } from "./utils";
+import { MimeString, UrlString, fnName, ifDef } from "../utils";
 
 /**
  * Prepare a Navigation object that controls card navigation.
@@ -19,6 +19,7 @@ export function navigate(
  * @returns Notification object.
  */
 export function notify(
+  /** Text of the notification. */
   text: string
 ): GoogleAppsScript.Card_Service.Notification {
   return CardService.newNotification().setText(text);
@@ -33,13 +34,13 @@ export function notify(
  * @returns The OpenLink action.
  */
 export function openLink(
-  url: `https://${string}`,
+  url: UrlString,
   openAs?: GoogleAppsScript.Card_Service.OpenAs,
   onClose?: GoogleAppsScript.Card_Service.OnClose
 ): GoogleAppsScript.Card_Service.OpenLink {
   const link = CardService.newOpenLink().setUrl(url);
-  if (openAs) link.setOpenAs(openAs);
-  if (onClose) link.setOnClose(onClose);
+  ifDef(openAs, link.setOpenAs);
+  ifDef(onClose, link.setOnClose);
 
   return link;
 }
@@ -55,8 +56,8 @@ export function openLink(
 export function attachment(
   url: string,
   title: string,
-  mimeType: `${string}/${string}`,
-  iconUrl: `https://${string}`
+  mimeType: MimeString,
+  iconUrl: UrlString
 ): GoogleAppsScript.Card_Service.Attachment {
   return CardService.newAttachment()
     .setResourceUrl(url)
@@ -71,7 +72,7 @@ export function attachment(
  * @returns Authorization object.
  */
 export function authorize(
-  authUrl: `https://${string}`
+  authUrl: UrlString
 ): GoogleAppsScript.Card_Service.AuthorizationAction {
   return CardService.newAuthorizationAction().setAuthorizationUrl(authUrl);
 }
@@ -84,35 +85,14 @@ export function authorize(
  */
 export function requestAuthorization(
   resourceName: string,
-  authUrl: `https://${string}`,
+  authUrl: UrlString,
   uiCallback?: () => GoogleAppsScript.Card_Service.Card[]
 ): void {
   const exception = CardService.newAuthorizationException()
     .setResourceDisplayName(resourceName)
     .setAuthorizationUrl(authUrl);
 
-  if (uiCallback) exception.setCustomUiCallback(fnName(uiCallback));
+  ifDef(uiCallback, (cb) => exception.setCustomUiCallback(fnName(cb)));
 
   exception.throwException();
-}
-
-/**
- * A class that represents a complete border style that can be applied to widgets.
- * @param color The color in #RGB format to be applied to the border.
- * @param radius The corner radius to be applied to the border.
- * @param type Sets the type of the border.
- * @returns Border object.
- */
-export function border(
-  color: `#${string}`,
-  radius?: number,
-  type?: GoogleAppsScript.Card_Service.BorderType
-) {
-  const item = CardService.newBorderStyle();
-
-  if (radius !== undefined) item.setCornerRadius(radius);
-  if (color) item.setStrokeColor(color);
-  if (type) item.setType(type);
-
-  return item;
 }

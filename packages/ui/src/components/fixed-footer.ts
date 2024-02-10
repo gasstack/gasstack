@@ -1,4 +1,5 @@
-import { uiFC } from "../core";
+import { FC } from "../types";
+import { ifDef } from "../utils";
 
 export type FixedFooterProps = {
   /**
@@ -16,14 +17,14 @@ export type FixedFooterProps = {
  * @param props Props to build the FixedFooter.
  * @returns FixedFooter object.
  */
-export const FixedFooter: uiFC<
+export const FixedFooter: FC<
   GoogleAppsScript.Card_Service.FixedFooter,
   FixedFooterProps
 > = (props) => {
-  const footer = CardService.newFixedFooter();
+  const cmp = CardService.newFixedFooter();
 
-  if (props.primaryButton) footer.setPrimaryButton(props.primaryButton);
-  if (props.secondaryButton) footer.setSecondaryButton(props.secondaryButton);
+  ifDef(props.primaryButton, cmp.setPrimaryButton);
+  ifDef(props.secondaryButton, cmp.setSecondaryButton);
 
-  return footer;
+  return cmp;
 };

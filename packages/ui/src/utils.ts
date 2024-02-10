@@ -1,3 +1,6 @@
+export type UrlString = `https://${string}`;
+export type EmailString = `${string}@${string}.${string}`;
+export type MimeString = `${string}/${string}`;
 export type ImageBase64 = `data:image/${string};base64,${string}`;
 
 /**
@@ -24,14 +27,11 @@ export function fnName(fn: (...args: any[]) => any) {
   return fn.name;
 }
 
-//TODO: bhf template string function
-// Format	Example	Rendered result
-// Bold	"This is <b>bold</b>."	This is bold.
-// Italics	"This is <i>italics</i>."	This is italics.
-// Underline	"This is <u>underline</u>."	This is underline.
-// Strikethrough	"This is <s>strikethrough</s>."	This is strikethrough.
-// Font color	"This is <font color=\"#FF0000\">red font</font>."	This is red font.
-// Hyperlink	"This is a <a href=\"https://www.google.com\">hyperlink</a>."	This is a hyperlink.
-// Time	"This is a time format: <time>2023-02-16 15:00</time>."	This is a time format: 2023-02-16 15:00.
-// Newline	"This is the first line. <br> This is a new line."	This is the first line.
-// This is a new line.
+export function ifDef<T>(
+  value: T,
+  fn: (value: T) => void,
+  elseFn?: () => void
+) {
+  if (value !== undefined) fn(value);
+  else if (elseFn !== undefined) elseFn();
+}

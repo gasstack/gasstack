@@ -11,6 +11,7 @@
 
 ### Functions
 
+- [createCacheStore](modules.md#createcachestore)
 - [createPropertiesStore](modules.md#createpropertiesstore)
 - [createSpreadsheetStore](modules.md#createspreadsheetstore)
 
@@ -33,7 +34,7 @@
 
 #### Defined in
 
-[src/type.ts:3](https://github.com/gasstack/gasstack/blob/42eb5e5/packages/kv/src/type.ts#L3)
+[src/type.ts:3](https://github.com/gasstack/gasstack/blob/e76c2d4/packages/kv/src/type.ts#L3)
 
 ___
 
@@ -43,9 +44,34 @@ ___
 
 #### Defined in
 
-[src/type.ts:1](https://github.com/gasstack/gasstack/blob/42eb5e5/packages/kv/src/type.ts#L1)
+[src/type.ts:1](https://github.com/gasstack/gasstack/blob/e76c2d4/packages/kv/src/type.ts#L1)
 
 ## Functions
+
+### createCacheStore
+
+▸ **createCacheStore**(`cache`, `expiration?`): [`KVStore`](modules.md#kvstore)
+
+Creates a Key-Value store out of a Google App Script cache store.
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `cache` | `Cache` | Google App Script cache (Script, User or Document). |
+| `expiration?` | `number` | Time to live in seconds of the entries. |
+
+#### Returns
+
+[`KVStore`](modules.md#kvstore)
+
+Generic Key-Value store.
+
+#### Defined in
+
+src/cache-store.ts:9
+
+___
 
 ### createPropertiesStore
 
@@ -67,7 +93,7 @@ Generic Key-Value store.
 
 #### Defined in
 
-src/prop-store.ts:8
+[src/prop-store.ts:8](https://github.com/gasstack/gasstack/blob/e76c2d4/packages/kv/src/prop-store.ts#L8)
 
 ___
 
@@ -91,4 +117,4 @@ Generic Key-Value store.
 
 #### Defined in
 
-src/sheet-store.ts:18
+[src/sheet-store.ts:18](https://github.com/gasstack/gasstack/blob/e76c2d4/packages/kv/src/sheet-store.ts#L18)

@@ -1,5 +1,5 @@
-import { UiAction } from ".";
-import { uiFC } from "../core";
+import { ResponseFC } from "../types";
+import { EmailString, ifDef } from "../utils";
 
 type ActionResponseBase = {
   /**
@@ -46,17 +46,16 @@ export type ActionResponseProps = ActionResponseBase &
  * @param props Props to build the ActionResponse.
  * @returns ActionResponse object.
  */
-export const ActionResponse: uiFC<
+export const ActionResponse: ResponseFC<
   GoogleAppsScript.Card_Service.ActionResponse,
   ActionResponseProps
 > = (props) => {
   const builder = CardService.newActionResponseBuilder();
 
-  if (props.openLink) builder.setOpenLink(props.openLink);
-  if (props.navigation) builder.setNavigation(props.navigation);
-  if (props.notification) builder.setNotification(props.notification);
-  if (props.stateChanged !== undefined)
-    builder.setStateChanged(props.stateChanged);
+  ifDef(props.openLink, builder.setOpenLink);
+  ifDef(props.navigation, builder.setNavigation);
+  ifDef(props.notification, builder.setNotification);
+  ifDef(props.stateChanged, builder.setStateChanged);
 
   return builder.build();
 };
@@ -67,7 +66,7 @@ export const ActionResponse: uiFC<
  * @param props Props to build the ComposeActionResponse.
  * @returns The ComposeActionResponse object.
  */
-export const ComposeActionResponse: uiFC<
+export const ComposeActionResponse: ResponseFC<
   GoogleAppsScript.Card_Service.ComposeActionResponse,
   {
     /** The draft GmailMessage created using GmailMessage.createDraftReply(body) or similar functions. */
@@ -84,7 +83,7 @@ export const ComposeActionResponse: uiFC<
  * @param props Props to build the response object.
  * @returns Response object.
  */
-export const DriveItemsSelectedActionResponse: uiFC<
+export const DriveItemsSelectedActionResponse: ResponseFC<
   GoogleAppsScript.Card_Service.DriveItemsSelectedActionResponse,
   {
     /** ID of the Drive item to request file scope for. */
@@ -101,7 +100,7 @@ export const DriveItemsSelectedActionResponse: uiFC<
  * @param props Props to build the response object.
  * @returns Response object.
  */
-export const EditorFileScopeActionResponse: uiFC<
+export const EditorFileScopeActionResponse: ResponseFC<
   GoogleAppsScript.Card_Service.EditorFileScopeActionResponse,
   void
 > = () => {
@@ -115,9 +114,10 @@ export const EditorFileScopeActionResponse: uiFC<
  * @param props Props to build the response object.
  * @returns Response object.
  */
-export const SuggestionsResponse: uiFC<
+export const SuggestionsResponse: ResponseFC<
   GoogleAppsScript.Card_Service.SuggestionsResponse,
   {
+    /** List of suggestions */
     suggestions: string[];
   }
 > = (props) => {
@@ -133,7 +133,7 @@ export const SuggestionsResponse: uiFC<
  * @param props Props to build the UniversalActionResponse.
  * @returns UniversalActionResponse object.
  */
-export const UniversalActionResponse: uiFC<
+export const UniversalActionResponse: ResponseFC<
   GoogleAppsScript.Card_Service.UniversalActionResponse,
   {
     /** Displays the add-on with the specified cards or sets the URL to open when the universal action is selected. */
@@ -155,28 +155,88 @@ export const UniversalActionResponse: uiFC<
  * @param props Props to build the UpdateDraftActionResponse.
  * @returns UpdateDraftActionResponse object.
  */
-export const UpdateDraftActionResponse: uiFC<
+export const UpdateDraftActionResponse: ResponseFC<
   GoogleAppsScript.Card_Service.UpdateDraftActionResponse,
   {
-    /** Sets an action that updates the email Bcc recipients of a draft. */
-    to?: UiAction<GoogleAppsScript.Card_Service.UpdateDraftToRecipientsAction>;
-    /** Set an action that updates the email body of a draft. */
-    cc?: UiAction<GoogleAppsScript.Card_Service.UpdateDraftCcRecipientsAction>;
-    /** Sets an action that updates the Cc recipients of a draft. */
-    bcc?: UiAction<GoogleAppsScript.Card_Service.UpdateDraftBccRecipientsAction>;
-    /** Sets an action that updates the subject line of a draft. */
-    subject?: UiAction<GoogleAppsScript.Card_Service.UpdateDraftSubjectAction>;
-    /** Sets an action that updates the To recipients of a draft. */
-    body?: UiAction<GoogleAppsScript.Card_Service.UpdateDraftBodyAction>;
+    /** Updates the To recipients of an email draft. */
+    to?: EmailString[];
+    /** Updates the Cc recipients of an email draft. */
+    cc?: EmailString[];
+    /** Updates the Bcc recipients of an email draft. */
+    bcc?: EmailString[];
+    /** Updates the subject line to insert to the email draft. */
+    subject?: string;
+    /** Updates the body of of an email draft. */
+    body?: {
+      /** The content to insert to the email draft. */
+      content: string;
+      /** The content type of the content to be inserted. */
+      contentType: GoogleAppsScript.Card_Service.ContentType;
+      /** The type of update to be performed on an email draft. */
+      updateType?: GoogleAppsScript.Card_Service.UpdateDraftBodyType;
+    };
   }
 > = (props) => {
   const item = CardService.newUpdateDraftActionResponseBuilder();
 
-  if (props.to) item.setUpdateDraftToRecipientsAction(props.to);
-  if (props.cc) item.setUpdateDraftCcRecipientsAction(props.cc);
-  if (props.bcc) item.setUpdateDraftBccRecipientsAction(props.bcc);
-  if (props.subject) item.setUpdateDraftSubjectAction(props.subject);
-  if (props.body) item.setUpdateDraftBodyAction(props.body);
+  ifDef(props.to, (to) =>
+    item.setUpdateDraftToRecipientsAction(
+      CardService.newUpdateDraftToRecipientsAction().addUpdateToRecipients(to)
+    )
+  );
+  ifDef(props.cc, (cc) =>
+    item.setUpdateDraftCcRecipientsAction(
+      CardService.newUpdateDraftCcRecipientsAction().addUpdateCcRecipients(cc)
+    )
+  );
+  ifDef(props.bcc, (bcc) =>
+    item.setUpdateDraftBccRecipientsAction(
+      CardService.newUpdateDraftBccRecipientsAction().addUpdateBccRecipients(
+        bcc
+      )
+    )
+  );
+  ifDef(props.subject, (subject) =>
+    item.setUpdateDraftSubjectAction(
+      CardService.newUpdateDraftSubjectAction().addUpdateSubject(subject)
+    )
+  );
+  ifDef(props.body, (body) => {
+    const res = CardService.newUpdateDraftBodyAction().addUpdateContent(
+      body.content,
+      body.contentType
+    );
+
+    ifDef(body.updateType, res.setUpdateType);
+    item.setUpdateDraftBodyAction(res);
+  });
 
   return item.build();
+};
+
+export type CalendarEventActionResponseProps = {
+  /** Specifies that the response should add the attachments to the Calendar event when the associated UI action is taken. */
+  attachments?: GoogleAppsScript.Card_Service.Attachment[];
+  /** Specifies that the response should add the indicated attendees (emails) to the Calendar event when the associated UI action is taken. */
+  attendees?: EmailString[];
+  /** Specifies that the response should set the indicated conference data to the Calendar event when the associated UI action is taken. */
+  conferenceData?: GoogleAppsScript.Conference_Data.ConferenceData;
+};
+
+/**
+ * Creates a CalendarEventActionResponse object.
+ * @param props Props to build the CalendarEventActionResponse.
+ * @returns CalendarEventActionResponse object.
+ */
+export const CalendarEventActionResponse: ResponseFC<
+  GoogleAppsScript.Card_Service.CalendarEventActionResponse,
+  CalendarEventActionResponseProps
+> = (props) => {
+  const builder = CardService.newCalendarEventActionResponseBuilder();
+
+  ifDef(props.attachments, builder.addAttachments);
+  ifDef(props.attendees, builder.addAttendees);
+  ifDef(props.conferenceData, builder.setConferenceData);
+
+  return builder.build();
 };

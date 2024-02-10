@@ -20,6 +20,30 @@ kv.set("obj", { name: "test", value: 10 });
 console.log(kv.get("obj").value);
 ```
 
+It is possible to create a KV store from a cache:
+
+```ts
+const kv = createCacheStore(CacheService.getDocumentCache());
+
+kv.set("obj", { name: "test", value: 10 });
+
+console.log(kv.get("obj").value);
+```
+
+It is possible to create a KV store from a Spreadsheet range:
+
+```ts
+const kv = createSpreadsheetStore(
+  SpreadsheetApp.getActive()
+    .getRange("B1:C1")
+    .getDataRegion(SpreadsheetApp.Dimension.ROWS)
+);
+
+kv.set("obj", { name: "test", value: 10 });
+
+console.log(kv.get("obj").value);
+```
+
 ## Example
 
 Have a look to the [e2e test](main.e2e.ts).

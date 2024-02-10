@@ -1,12 +1,11 @@
-import { fnName } from "./utils";
-import { uiFC } from "../core";
-import {
-  ActionResponseTypes,
-  UiCallbackFn,
-  UiCallbackSetter,
-} from "./callbacks";
+import { fnName, ifDef } from "../utils";
+import { ActionFC, ResponseComponent } from "../types";
+import { ActionBuilder, ActionFn } from "../actions-router";
 
-export type ActionProps<T extends ActionResponseTypes = any> = {
+export type ActionProps<
+  T extends ResponseComponent,
+  E extends GoogleAppsScript.Addons.EventObject
+> = {
   /** Sets the loading indicator that displays while the action is in progress. */
   loadIndicator?: GoogleAppsScript.Card_Service.LoadIndicator;
   /**
@@ -15,47 +14,54 @@ export type ActionProps<T extends ActionResponseTypes = any> = {
    * Persisting client values can interfere with your script's ability to clear form fields or override form values, so avoid turning on persistence for that type of functionality. Without persistence, it's recommended that you use the LoadIndicator.SPINNER for events, because this locks the UI and prevents user edits before the server responds. Alternatively, you can use LoadIndicator.NONE and make sure every element in the form has an onChange action.
    */
   persistClientValues?: boolean;
+  /** Allows custom parameters to be passed to the callback function. */
+  parameters?: Record<string, string>;
 } & (
   | {
       /**
-       * Setter obtained from a UiCallback provider, result of the configureUiCallbacks function.
+       * Managed action builder from the router.
        */
-      callback: UiCallbackSetter<T>;
+      builder: ActionBuilder<T>;
     }
   | {
       /** Sets the name of the callback function to be called. */
-      fn: UiCallbackFn<T>;
-      /** Allows custom parameters to be passed to the callback function. */
-      parameters?: Record<string, string>;
+      fn: ActionFn<T, E>;
     }
 );
 
-export type UiAction<T extends ActionResponseTypes> =
-  GoogleAppsScript.Card_Service.Action & T;
+export type RoutedAction<
+  T extends ResponseComponent,
+  E extends GoogleAppsScript.Addons.EventObject = GoogleAppsScript.Addons.EventObject
+> = GoogleAppsScript.Card_Service.Action & {
+  __actionResult: T;
+  __actionParam: E;
+};
 
 /**
  * Creates a Action object.
  * @param props Props to build the Action.
  * @returns Action object.
  */
-export const Action = (<T extends ActionResponseTypes>(
-  props: ActionProps<T>
+export const Action = (<
+  T extends ResponseComponent,
+  E extends GoogleAppsScript.Addons.EventObject
+>(
+  props: ActionProps<T, E>
 ) => {
   const action = CardService.newAction();
 
-  if (props.loadIndicator) action.setLoadIndicator(props.loadIndicator);
-  if (props.persistClientValues !== undefined)
-    (action as any).setPersistValues(props.persistClientValues);
+  ifDef(props.loadIndicator, action.setLoadIndicator);
+  ifDef(props.persistClientValues, (action as any).setPersistValues);
 
-  if ("callback" in props) {
-    props.callback(action);
+  if ("builder" in props) {
+    props.builder(action, props.parameters);
   } else {
     action.setFunctionName(fnName(props.fn));
-    if (props.parameters) action.setParameters(props.parameters);
+    ifDef(props.parameters, action.setParameters);
   }
 
-  return action as UiAction<T>;
-}) satisfies uiFC<
-  UiAction<ActionResponseTypes>,
-  ActionProps<ActionResponseTypes>
+  return action as RoutedAction<T, E>;
+}) satisfies ActionFC<
+  RoutedAction<ResponseComponent, any>,
+  ActionProps<ResponseComponent, any>
 >;
