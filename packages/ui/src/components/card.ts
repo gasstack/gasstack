@@ -1,5 +1,5 @@
-import { ActionFC, FC } from "../types";
-import { ImageBase64, UrlString, ifDef } from "../utils";
+import { ActionFC, FC, ImageBase64, UrlString } from "../types";
+import { ifDef } from "../utils";
 import { ActionTargetProps, withAction } from "./action-target-utils";
 
 export type CardProps = {

@@ -45,6 +45,7 @@ function scopeName(key: OauthScopesKeys): OauthScopes {
   return `https://www.googleapis.com/auth/${key}`;
 }
 
+//TODO: change using globalThis or global const gasstack_manifest_{name}
 function fnName(fn: (...args: any[]) => any) {
   if (!fn) throw new Error("Null functions not allowed");
   if (fn.name === "") throw new Error("Anonymous functions not allowed");

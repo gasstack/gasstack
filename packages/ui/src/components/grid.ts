@@ -1,5 +1,6 @@
 import { FC } from "../types";
-import { ColorRGB, ImageBase64, UrlString, ifDef } from "../utils";
+import { ColorRGB, ImageBase64, UrlString } from "../types";
+import { ifDef } from "../utils";
 import { ActionTargetProps, withAction } from "./action-target-utils";
 
 function border(
@@ -54,6 +55,12 @@ export const Grid: FC<GoogleAppsScript.Card_Service.Grid, GridProps> = (
 
   return cmp;
 };
+
+export function getClickedItemId(
+  e: GoogleAppsScript.Addons.EventObject
+): string {
+  return e.commonEventObject.parameters["grid_item_identifier"];
+}
 
 export type GridItemProps = {
   /** Sets the identifier for the grid item. When a user clicks this grid item, this ID is returned in the parent grid's on_click call back parameters. */

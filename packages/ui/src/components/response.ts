@@ -1,5 +1,5 @@
-import { ResponseFC } from "../types";
-import { EmailString, ifDef } from "../utils";
+import { EmailString, ResponseFC } from "../types";
+import { ifDef } from "../utils";
 
 export type ActionResponseProps = {
   /**

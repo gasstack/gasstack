@@ -16,6 +16,7 @@ export type ActionProvider<T extends Record<string, ActionFn<any, any>>> = {
     : never;
 };
 
+//TODO: change using globalThis or global const gasstack_ui_{name}
 const actionFnStore: Record<string, ActionFn<any, any>> = {};
 const ACTION_FN_PARAM_NAME = "routedFunction";
 

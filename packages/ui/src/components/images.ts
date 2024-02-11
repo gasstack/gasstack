@@ -1,5 +1,6 @@
 import { FC } from "../types";
-import { ImageBase64, UrlString, ifDef } from "../utils";
+import { ImageBase64, UrlString } from "../types";
+import { ifDef } from "../utils";
 import { ActionTargetProps, withAction } from "./action-target-utils";
 
 export type IconImageProps = {

@@ -1,4 +1,4 @@
-import { DriveItem, DriveItemIterator } from "./types";
+import { DriveItem, DriveItemIterator, ImageBase64 } from "./types";
 
 /**
  * Produces an array out of a DriveApp iterator (Files or Folders).
@@ -63,4 +63,21 @@ export function getFiles(folderId?: string) {
 export function continueFiles(continuationToken: string, limit?: number) {
   const iterator = DriveApp.continueFileIterator(continuationToken);
   return fromDriveIterator(iterator, limit);
+}
+
+/**
+ * Return a base64 html data string of an image stored in google Drive.
+ * @param fileId Id of the Drive file.
+ * @returns Base64 html data string.
+ */
+export function getImageBase64(fileId: string): ImageBase64 {
+  const file = DriveApp.getFileById(fileId);
+  const mime = file.getMimeType();
+  if (mime.startsWith("image/") == false)
+    throw new Error(
+      `FileId: ${fileId} is not a valid image file. Its type is: ${mime}`
+    );
+
+  const data = file.getBlob().getBytes();
+  return `data:${mime};base64,${Utilities.base64Encode(data)}` as ImageBase64;
 }

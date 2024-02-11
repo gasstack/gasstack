@@ -1,4 +1,5 @@
-import { MimeString, UrlString, fnName, ifDef } from "../utils";
+import { MimeString, UrlString } from "../types";
+import { fnName, ifDef } from "../utils";
 
 /**
  * Prepare a Navigation object that controls card navigation.

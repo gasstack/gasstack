@@ -1,5 +1,5 @@
-import { FC } from "../types";
-import { UrlString, ifDef } from "../utils";
+import { FC, UrlString } from "../types";
+import { ifDef } from "../utils";
 import { ActionTargetProps, withAction } from "./action-target-utils";
 
 /**

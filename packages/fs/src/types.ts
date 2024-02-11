@@ -7,3 +7,5 @@ export type DriveItemIterator<T extends DriveItem> = {
   hasNext(): boolean;
   next(): T;
 };
+
+export type ImageBase64 = `data:image/${string};base64,${string}`;

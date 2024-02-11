@@ -98,3 +98,9 @@ export type ResponseFC<R extends ResponseComponent, T = any> = (props: T) => R;
 export type EffectFC<R extends EffectComponent, T = any> = (props: T) => R;
 export type StyleFC<R extends StyleComponent, T = any> = (props: T) => R;
 export type ResourceFC<R extends ResourceComponent, T = any> = (props: T) => R;
+
+export type UrlString = `https://${string}`;
+export type EmailString = `${string}@${string}.${string}`;
+export type MimeString = `${string}/${string}`;
+export type ImageBase64 = `data:image/${string};base64,${string}`;
+export type ColorRGB = `#${string}`;

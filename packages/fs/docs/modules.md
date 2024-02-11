@@ -8,6 +8,7 @@
 
 - [DriveItem](modules.md#driveitem)
 - [DriveItemIterator](modules.md#driveitemiterator)
+- [ImageBase64](modules.md#imagebase64)
 
 ### Functions
 
@@ -16,6 +17,7 @@
 - [fromDriveIterator](modules.md#fromdriveiterator)
 - [getFiles](modules.md#getfiles)
 - [getFolders](modules.md#getfolders)
+- [getImageBase64](modules.md#getimagebase64)
 
 ## Type Aliases
 
@@ -25,7 +27,7 @@
 
 #### Defined in
 
-[src/types.ts:1](https://github.com/gasstack/gasstack/blob/d1294ec/packages/fs/src/types.ts#L1)
+[src/types.ts:1](https://github.com/gasstack/gasstack/blob/1833961/packages/fs/src/types.ts#L1)
 
 ___
 
@@ -49,7 +51,17 @@ ___
 
 #### Defined in
 
-[src/types.ts:5](https://github.com/gasstack/gasstack/blob/d1294ec/packages/fs/src/types.ts#L5)
+[src/types.ts:5](https://github.com/gasstack/gasstack/blob/1833961/packages/fs/src/types.ts#L5)
+
+___
+
+### ImageBase64
+
+Ƭ **ImageBase64**: \`data:image/$\{string};base64,$\{string}\`
+
+#### Defined in
+
+[src/types.ts:11](https://github.com/gasstack/gasstack/blob/1833961/packages/fs/src/types.ts#L11)
 
 ## Functions
 
@@ -74,7 +86,7 @@ Array of Files.
 
 #### Defined in
 
-[src/utils.ts:63](https://github.com/gasstack/gasstack/blob/d1294ec/packages/fs/src/utils.ts#L63)
+[src/utils.ts:63](https://github.com/gasstack/gasstack/blob/1833961/packages/fs/src/utils.ts#L63)
 
 ___
 
@@ -99,7 +111,7 @@ Array of Folders.
 
 #### Defined in
 
-[src/utils.ts:39](https://github.com/gasstack/gasstack/blob/d1294ec/packages/fs/src/utils.ts#L39)
+[src/utils.ts:39](https://github.com/gasstack/gasstack/blob/1833961/packages/fs/src/utils.ts#L39)
 
 ___
 
@@ -130,7 +142,7 @@ Array of items.
 
 #### Defined in
 
-[src/utils.ts:9](https://github.com/gasstack/gasstack/blob/d1294ec/packages/fs/src/utils.ts#L9)
+[src/utils.ts:9](https://github.com/gasstack/gasstack/blob/1833961/packages/fs/src/utils.ts#L9)
 
 ___
 
@@ -154,7 +166,7 @@ Array of Files.
 
 #### Defined in
 
-[src/utils.ts:49](https://github.com/gasstack/gasstack/blob/d1294ec/packages/fs/src/utils.ts#L49)
+[src/utils.ts:49](https://github.com/gasstack/gasstack/blob/1833961/packages/fs/src/utils.ts#L49)
 
 ___
 
@@ -178,4 +190,28 @@ Array of Folders.
 
 #### Defined in
 
-[src/utils.ts:25](https://github.com/gasstack/gasstack/blob/d1294ec/packages/fs/src/utils.ts#L25)
+[src/utils.ts:25](https://github.com/gasstack/gasstack/blob/1833961/packages/fs/src/utils.ts#L25)
+
+___
+
+### getImageBase64
+
+▸ **getImageBase64**(`fileId`): [`ImageBase64`](modules.md#imagebase64)
+
+Return a base64 html data string of an image stored in google Drive.
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `fileId` | `string` | Id of the Drive file. |
+
+#### Returns
+
+[`ImageBase64`](modules.md#imagebase64)
+
+Base64 html data string.
+
+#### Defined in
+
+[src/utils.ts:74](https://github.com/gasstack/gasstack/blob/1833961/packages/fs/src/utils.ts#L74)
