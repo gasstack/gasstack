@@ -1,15 +1,15 @@
-import { FC } from "../types";
+import { FC, Icon, ImageCropType } from "../types";
 import { ImageBase64, UrlString } from "../types";
-import { ifDef } from "../utils";
+import { enumIcon, enumImageCropType, ifDef } from "../utils";
 import { ActionTargetProps, withAction } from "./action-target-utils";
 
 export type IconImageProps = {
   /** Sets the alternative text of the URL which is used for accessibility. */
   altText?: string;
   /** Sets the predefined icon if the URL is not set. Default is NONE. Sets the URL of the icon if the icon is not set. */
-  icon: GoogleAppsScript.Card_Service.Icon | UrlString;
+  icon: Icon | UrlString;
   /** Sets the crop style for the image. The crop type options you can use for icons are SQUARE and CIRCLE. Default is SQUARE. */
-  crop?: GoogleAppsScript.Card_Service.ImageCropType;
+  crop?: ImageCropType;
 };
 
 /**
@@ -23,11 +23,11 @@ export const IconImage: FC<
 > = (props) => {
   const item = CardService.newIconImage();
 
-  if (typeof props.icon === "string") item.setIconUrl(props.icon);
-  else item.setIcon(props.icon);
+  if (props.icon.startsWith("http")) item.setIconUrl(props.icon);
+  else item.setIcon(enumIcon(props.icon as Icon));
 
   ifDef(props.altText, item.setAltText);
-  ifDef(props.crop, item.setImageCropType);
+  ifDef(props.crop, (c) => item.setImageCropType(enumImageCropType(c)));
 
   return item;
 };

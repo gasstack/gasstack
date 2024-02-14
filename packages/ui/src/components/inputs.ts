@@ -1,18 +1,36 @@
-import { FC } from "../types";
-import { ifDef } from "../utils";
+import { ActionBuilder } from "../actions-router";
+import { FC, SelectionInputType, SwitchControlType } from "../types";
+import {
+  buildAction,
+  buildActionSetter,
+  enumSelectionInputType,
+  enumSwitchControlType,
+  getArray,
+  ifDef,
+} from "../utils";
 import { RoutedAction } from "./action";
+
+export type SelectionInputOption = {
+  text: string;
+  value: string;
+  selected?: boolean;
+};
 
 export type SelectionInputProps = {
   /** Sets the key that identifies this selection input in the event object that is generated when there is a UI interaction. Not visible to the user. Required, must be unique.   */
   fieldName: string;
   /** Sets an Action to be performed whenever the selection input changes. */
-  onChange?: RoutedAction<GoogleAppsScript.Card_Service.ActionResponse>;
+  onChange?:
+    | RoutedAction<GoogleAppsScript.Card_Service.ActionResponse>
+    | ActionBuilder<GoogleAppsScript.Card_Service.ActionResponse>;
   /** Sets the title displayed above the input field. */
   title: string;
   /** Sets the items that can be selected. */
-  options: { text: string; value: string; selected?: boolean }[];
+  options?: SelectionInputOption[];
   /** Sets the type of this input. Defaults to CHECKBOX. */
-  type?: GoogleAppsScript.Card_Service.SelectionInputType;
+  type?: SelectionInputType;
+
+  children?: SelectionInputOption | SelectionInputOption[];
 };
 
 /**
@@ -28,10 +46,16 @@ export const SelectionInput: FC<
     .setFieldName(props.fieldName)
     .setTitle(props.title);
 
-  props.options.forEach((p) => item.addItem(p.text, p.value, !!p.selected));
+  getArray(props.options).forEach((p) =>
+    item.addItem(p.text, p.value, !!p.selected)
+  );
 
-  ifDef(props.type, item.setType);
-  ifDef(props.onChange, item.setOnChangeAction);
+  ifDef(props.type, (t) => item.setType(enumSelectionInputType(t)));
+  ifDef(props.onChange, buildActionSetter(item.setOnChangeAction));
+
+  getArray(props.children).forEach((p) =>
+    item.addItem(p.text, p.value, !!p.selected)
+  );
 
   return item;
 };
@@ -42,13 +66,15 @@ export type SwitchProps = {
    */
   fieldName: string;
   /** Sets the action to take when the switch is toggled. */
-  onChange?: RoutedAction<GoogleAppsScript.Card_Service.ActionResponse>;
+  onChange?:
+    | RoutedAction<GoogleAppsScript.Card_Service.ActionResponse>
+    | ActionBuilder<GoogleAppsScript.Card_Service.ActionResponse>;
   /** Sets whether this switch should start as selected or unselected. */
   selected?: boolean;
   /** Sets the value that is sent as the form input when this switch is toggled on. */
   value: string;
   /** Sets the control type of the switch. Defaults to SWITCH. */
-  type?: GoogleAppsScript.Card_Service.SwitchControlType;
+  type?: SwitchControlType;
 };
 
 /**
@@ -63,8 +89,8 @@ export const Switch: FC<GoogleAppsScript.Card_Service.Switch, SwitchProps> = (
     .setFieldName(props.fieldName)
     .setValue(props.value);
 
-  ifDef(props.type, item.setControlType);
-  ifDef(props.onChange, item.setOnChangeAction);
+  ifDef(props.type, (t) => item.setControlType(enumSwitchControlType(t)));
+  ifDef(props.onChange, buildActionSetter(item.setOnChangeAction));
 
   item.setSelected(!!props.selected);
 
@@ -81,11 +107,14 @@ export type TextInputProps = {
   /** Sets whether the input text shows on one line or multiple lines. */
   multiline?: boolean;
   /** Sets an action to be performed whenever the text input changes. */
-  onChange?: RoutedAction<GoogleAppsScript.Card_Service.ActionResponse>;
+  onChange?:
+    | RoutedAction<GoogleAppsScript.Card_Service.ActionResponse>
+    | ActionBuilder<GoogleAppsScript.Card_Service.ActionResponse>;
   /** Sets the suggestions for autocompletion in the text field. */
   suggestions?:
     | GoogleAppsScript.Card_Service.Suggestions
-    | RoutedAction<GoogleAppsScript.Card_Service.SuggestionsResponse>;
+    | RoutedAction<GoogleAppsScript.Card_Service.SuggestionsResponse>
+    | ActionBuilder<GoogleAppsScript.Card_Service.SuggestionsResponse>;
   /** Sets the pre-filled value to be set in the input field. */
   value?: string;
 };
@@ -105,13 +134,13 @@ export const TextInput: FC<
 
   ifDef(props.hint, item.setHint);
   ifDef(props.value, item.setValue);
-  ifDef(props.onChange, item.setOnChangeAction);
+  ifDef(props.onChange, buildActionSetter(item.setOnChangeAction));
 
   item.setMultiline(!!props.multiline);
 
   ifDef(props.suggestions, (sug) => {
     if ("addSuggestion" in sug) item.setSuggestions(sug);
-    else item.setSuggestionsAction(sug);
+    else item.setSuggestionsAction(buildAction(sug));
   });
 
   return item;

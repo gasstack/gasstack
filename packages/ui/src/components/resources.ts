@@ -1,5 +1,5 @@
-import { MimeString, UrlString } from "../types";
-import { fnName, ifDef } from "../utils";
+import { MimeString, OnClose, OpenAs, UrlString } from "../types";
+import { enumOnClose, enumOpenAs, fnName, ifDef } from "../utils";
 
 /**
  * Prepare a Navigation object that controls card navigation.
@@ -36,12 +36,12 @@ export function notify(
  */
 export function openLink(
   url: UrlString,
-  openAs?: GoogleAppsScript.Card_Service.OpenAs,
-  onClose?: GoogleAppsScript.Card_Service.OnClose
+  openAs?: OpenAs,
+  onClose?: OnClose
 ): GoogleAppsScript.Card_Service.OpenLink {
   const link = CardService.newOpenLink().setUrl(url);
-  ifDef(openAs, link.setOpenAs);
-  ifDef(onClose, link.setOnClose);
+  ifDef(openAs, (o) => link.setOpenAs(enumOpenAs(o)));
+  ifDef(onClose, (c) => link.setOnClose(enumOnClose(c)));
 
   return link;
 }

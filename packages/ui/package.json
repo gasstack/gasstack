@@ -38,11 +38,11 @@
   },
   "homepage": "https://github.com/gasstack/gasstack#readme",
   "devDependencies": {
-    "@types/google-apps-script": "^1.0.79",
-    "typedoc": "^0.25.7",
+    "@types/google-apps-script": "^1.0.81",
+    "typedoc": "^0.25.8",
     "typedoc-plugin-markdown": "^3.17.1",
     "typescript": "^5.3.3",
-    "vite": "^5.0.12",
+    "vite": "^5.1.2",
     "vite-plugin-dts": "^3.7.2",
     "vitest": "^1.2.2"
   }

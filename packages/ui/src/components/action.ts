@@ -1,5 +1,5 @@
-import { fnName, ifDef } from "../utils";
-import { ActionFC, ResponseComponent } from "../types";
+import { enumLoadIndicator, fnName, ifDef } from "../utils";
+import { ActionFC, LoadIndicator, ResponseComponent } from "../types";
 import { ActionBuilder, ActionFn } from "../actions-router";
 
 export type ActionProps<
@@ -7,7 +7,7 @@ export type ActionProps<
   E extends GoogleAppsScript.Addons.EventObject
 > = {
   /** Sets the loading indicator that displays while the action is in progress. */
-  loadIndicator?: GoogleAppsScript.Card_Service.LoadIndicator;
+  loadIndicator?: LoadIndicator;
   /**
    * Indicates whether form values are determined by the client's values or the server's values after an action response updates the form's Card. When set to true, the client's values persist after the server response. When set to false, the server's values overwrite the form values. Defaults to false.
    * Persisting the client values helps prevent situations where a form changes unexpectedly after a user makes an edit. For example, if a user makes an edit to a TextInput after submitting a form, but before the server responds. If the values are persisted, the edit the user made remains after the server response updates the Card; otherwise the form value returns to the value that the user originally submitted to the form.
@@ -50,8 +50,10 @@ export const Action = (<
 ) => {
   const action = CardService.newAction();
 
-  ifDef(props.loadIndicator, action.setLoadIndicator);
-  ifDef(props.persistClientValues, (action as any).setPersistValues);
+  ifDef(props.loadIndicator, (l) =>
+    action.setLoadIndicator(enumLoadIndicator(l))
+  );
+  ifDef(props.persistClientValues, action.setPersistValues);
 
   if ("builder" in props) {
     props.builder(action, props.parameters);

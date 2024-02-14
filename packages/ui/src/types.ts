@@ -92,6 +92,10 @@ export type ActionTarget =
   | GoogleAppsScript.Card_Service.DecoratedText
   | GoogleAppsScript.Card_Service.Grid;
 
+export type CardPeekHeaderType = GoogleAppsScript.Card_Service.CardHeader & {
+  role: "peekHeader";
+};
+
 export type FC<R extends Component, T = any> = (props: T) => R;
 export type ActionFC<R extends ActionComponent, T = any> = (props: T) => R;
 export type ResponseFC<R extends ResponseComponent, T = any> = (props: T) => R;
@@ -104,3 +108,51 @@ export type EmailString = `${string}@${string}.${string}`;
 export type MimeString = `${string}/${string}`;
 export type ImageBase64 = `data:image/${string};base64,${string}`;
 export type ColorRGB = `#${string}`;
+
+export type BorderType = "stroke" | "none";
+export type ComposedEmailType = "reply" | "standalone";
+export type ContentType = "text" | "html" | "readonly-html";
+export type DisplayStyle = "peek" | "replace";
+export type GridItemLayout = "text-below" | "text-above";
+export type HorizontalAlignment = "start" | "center" | "end";
+export type Icon =
+  | "none"
+  | "airplane"
+  | "bookmark"
+  | "bus"
+  | "car"
+  | "clock"
+  | "confirmation-number"
+  | "dollar"
+  | "description"
+  | "email"
+  | "event-performer"
+  | "event-seat"
+  | "flight-arrival"
+  | "flight-departure"
+  | "hotel"
+  | "hotel-room-type"
+  | "invite"
+  | "map-pin"
+  | "membership"
+  | "people"
+  | "offer"
+  | "person"
+  | "phone"
+  | "restaurant"
+  | "shopping-cart"
+  | "star"
+  | "store"
+  | "ticket"
+  | "train"
+  | "camera"
+  | "play";
+export type ImageCropType = "square" | "circle" | "rectangle" | "4-3";
+export type ImageStyle = "square" | "circle";
+export type LoadIndicator = "spinner" | "none";
+export type OnClose = "nothing" | "reload" | "reload-addon";
+export type OpenAs = "full-size" | "overlay";
+export type SelectionInputType = "checkbox" | "radio" | "dropdown";
+export type SwitchControlType = "switch" | "checkbox";
+export type TextButtonStyle = "text" | "filled";
+export type UpdateDraftBodyType = "inplace-insert";

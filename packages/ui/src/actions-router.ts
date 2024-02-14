@@ -26,7 +26,12 @@ const ACTION_FN_PARAM_NAME = "routedFunction";
  * @returns Provider function, producing scoped setters for generic actions.
  */
 export function createActionRouter<
-  T extends { [key: string]: ActionFn<any, any> }
+  T extends {
+    [key: string]: ActionFn<
+      ResponseComponent,
+      GoogleAppsScript.Addons.EventObject
+    >;
+  }
 >(config: T): ActionProvider<T> {
   const provider: Record<string, ActionBuilder<any>> = {};
 

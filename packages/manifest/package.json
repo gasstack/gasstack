@@ -43,13 +43,13 @@
   },
   "homepage": "https://github.com/gasstack/gasstack#readme",
   "devDependencies": {
-    "@types/google-apps-script": "^1.0.79",
-    "@types/node": "^20.11.16",
-    "rollup": "^4.9.6",
-    "typedoc": "^0.25.7",
+    "@types/google-apps-script": "^1.0.81",
+    "@types/node": "^20.11.17",
+    "rollup": "^4.10.0",
+    "typedoc": "^0.25.8",
     "typedoc-plugin-markdown": "^3.17.1",
     "typescript": "^5.3.3",
-    "vite": "^5.0.12",
+    "vite": "^5.1.2",
     "vite-plugin-dts": "^3.7.2",
     "vite-plugin-node-polyfills": "^0.19.0",
     "vitest": "^1.2.2"

@@ -6,7 +6,7 @@ export default defineConfig({
     outDir: "../e2e",
     assetsDir: "",
     rollupOptions: {
-      input: "./main.e2e.ts",
+      input: "./main.e2e.tsx",
       output: {
         entryFileNames: "code.js",
       },

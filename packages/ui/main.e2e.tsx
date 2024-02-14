@@ -15,11 +15,18 @@ import {
   UniversalActionResponse,
   openLink,
   UrlString,
+  PeekCardHeader,
+  FixedFooter,
+  CardActions,
+  CardSections,
+  TextParagraph,
+  response,
+  GridTile,
+  GridTileTitle,
 } from "./index";
 
 const router = createActionRouter({
-  notifica: (e) =>
-    ActionResponse({ notification: notify("Testo da card action") }),
+  notifica: (e) => response(notify("Testo da card action")),
   click: (e) => ActionResponse({ notification: notify("Testo da bottone") }),
   gridClick: (e: GoogleAppsScript.Addons.EventObject) => {
     return ActionResponse({
@@ -28,50 +35,86 @@ const router = createActionRouter({
   },
 });
 
-const TEST: any = {};
-TEST.universalDyn = (e: any) => {
-  console.log(e);
+((g) => {
+  g.universalDyn = (e: any) => {
+    console.log(e);
 
-  return UniversalActionResponse({
-    action: openLink("https://www.google.com"),
-  });
-};
+    return UniversalActionResponse({
+      action: openLink("https://www.google.com"),
+    });
+  };
+})(Function("return this")() as typeof globalThis);
 
-//TODO: implement JSX
-function testJSX() {
-  // return (<>
-  //   <Card>
-  //     <Header>
-  //      <Title>Prova</Title>
-  //      <SubTitle>Sottotitolo</SubTitle>
-  //     </Header>
-  //     <Sections>
-  //       <Section name="Grid">
-  //         <Grid click={router.gridClick}>
-  //           {new Array(10).fill(0).map((_, i)=>(<Item src="data..." title="test" />))}
-  //         </Grid>
-  //       </Section>
-  //       <Section name="Primo">
-  //         <TextButton click={router.click}>Click</TextButton>
-  //       </Section>
-  //     </Sections>
-  //   </Card>
-  // </>)
+function TestCard(props: { title: string; children?: any }) {
+  return (
+    <Card>
+      <CardHeader title={props.title} subtitle="Sottotitolo" />
+      <CardSections>
+        <CardSection header="Primo">{props.children}</CardSection>
+      </CardSections>
+      <FixedFooter
+        primaryButton={<TextButton text="Click" onClick={router.click} />}
+      />
+    </Card>
+  );
 }
 
+//TODO: implement JSX
 function test() {
+  return (
+    <>
+      <TestCard title="Uno">
+        <TextButton text="Click 1" onClick={router.click} />
+        <TextButton text="Click 2" onClick={router.click} />
+      </TestCard>
+      <TestCard title="Due">
+        <TextParagraph>{`Prova <b>ecc</b> ecc<br>
+        ecc`}</TextParagraph>
+      </TestCard>
+      <TestCard title="Tre">
+        <TextParagraph text="Prova 333 ecc ecc" />
+      </TestCard>
+      <Card>
+        <CardHeader title="Prova Grid" subtitle="Sottotitolo" />
+        <PeekCardHeader title="Peek Prova" subtitle="Peek Sottotitolo" />
+
+        <CardActions>
+          <CardAction text="Notifica" onClick={router.notifica} />
+        </CardActions>
+
+        <CardSections>
+          <CardSection header="Primo">
+            <Grid title="Test grid" onClick={router.gridClick} columnsCount={2}>
+              {new Array(10).fill(0).map((_, i) => (
+                <GridTile id={`item-${i}`}>
+                  {/* <GridTileTitle title={`title item-${i}`} /> */}
+                  <ImageComponent url="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/1024px-Typescript_logo_2020.svg.png?20221110153201" />
+
+                  <GridTileTitle title={`title item-${i}`} />
+                </GridTile>
+              ))}
+            </Grid>
+          </CardSection>
+        </CardSections>
+        <FixedFooter
+          primaryButton={<TextButton text="Click" onClick={router.click} />}
+        />
+      </Card>
+    </>
+  );
+}
+
+function test_fn() {
   return [
     Card({
       header: CardHeader({ title: "Prova", subtitle: "Sottotitolo" }),
       actions: [
         CardAction({
           text: "Notifica",
-          action: {
-            click: Action({
-              loadIndicator: CardService.LoadIndicator.SPINNER,
-              builder: router.notifica,
-            }),
-          },
+          onClick: Action({
+            loadIndicator: "spinner",
+            builder: router.notifica,
+          }),
         }),
       ],
       sections: [
@@ -80,7 +123,7 @@ function test() {
           widgets: [
             Grid({
               title: "Test Grid",
-              action: { click: Action({ builder: router.gridClick }) },
+              onClick: Action({ builder: router.gridClick }),
               columnsCount: 2,
               items: new Array(10).fill(0).map((_, i) =>
                 GridItem({
@@ -99,9 +142,7 @@ function test() {
           widgets: [
             TextButton({
               text: "Click",
-              action: {
-                click: Action({ builder: router.click }),
-              },
+              onClick: Action({ builder: router.click }),
             }),
           ],
         }),

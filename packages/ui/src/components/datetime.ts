@@ -1,5 +1,6 @@
+import { ActionBuilder } from "../actions-router";
 import { FC } from "../types";
-import { ifDef } from "../utils";
+import { buildActionSetter, ifDef } from "../utils";
 import { RoutedAction } from "./action";
 
 export type TimePickerProps = {
@@ -10,7 +11,9 @@ export type TimePickerProps = {
   /** Sets the prefilled minutes value to set in the input field, range from 0 to 59. It is always represented as a string in the form callback parameters. */
   minutes?: number;
   /** Sets an Action that the script performs whenever the picker input changes. */
-  onChange?: RoutedAction<GoogleAppsScript.Card_Service.ActionResponse>;
+  onChange?:
+    | RoutedAction<GoogleAppsScript.Card_Service.ActionResponse>
+    | ActionBuilder<GoogleAppsScript.Card_Service.ActionResponse>;
   /** Sets the title displayed above the input field. */
   title: string;
 };
@@ -30,7 +33,7 @@ export const TimePicker: FC<
 
   ifDef(props.hours, item.setHours);
   ifDef(props.minutes, item.setMinutes);
-  ifDef(props.onChange, item.setOnChangeAction);
+  ifDef(props.onChange, buildActionSetter(item.setOnChangeAction));
 
   return item;
 };
@@ -39,7 +42,9 @@ export type DatePickerProps = {
   /** Sets the field name that identifies this picker in the event object that is generated when there is a UI interaction. The field name is visible to the user. Required; the specified field name must be unique. */
   fieldName: string;
   /** Sets an Action that the script performs whenever the picker input changes. */
-  onChange?: RoutedAction<GoogleAppsScript.Card_Service.ActionResponse>;
+  onChange?:
+    | RoutedAction<GoogleAppsScript.Card_Service.ActionResponse>
+    | ActionBuilder<GoogleAppsScript.Card_Service.ActionResponse>;
   /** Sets the title displayed above the input field. */
   title: string;
   /** Sets the prefilled value to be set in the input field. The default value placed in the input as a number, in milliseconds since the epoch. Only the date of the epoch time is used, and the time of the epoch time is discarded. It is always represented as a string in the form callback parameters. */
@@ -60,7 +65,7 @@ export const DatePicker: FC<
     .setTitle(props.title);
 
   ifDef(props.value, item.setValueInMsSinceEpoch);
-  ifDef(props.onChange, item.setOnChangeAction);
+  ifDef(props.onChange, buildActionSetter(item.setOnChangeAction));
 
   return item;
 };
@@ -69,7 +74,9 @@ export type DateTimePickerProps = {
   /** Sets the field name that identifies this picker in the event object that is generated when there is a UI interaction. The field name is visible to the user. Required; the specified field name must be unique. */
   fieldName: string;
   /** Sets an Action that the script performs whenever the picker input changes. */
-  onChange?: RoutedAction<GoogleAppsScript.Card_Service.ActionResponse>;
+  onChange?:
+    | RoutedAction<GoogleAppsScript.Card_Service.ActionResponse>
+    | ActionBuilder<GoogleAppsScript.Card_Service.ActionResponse>;
   /** Sets the title displayed above the input field. */
   title: string;
   /** Sets the prefilled value to be set in the input field. The default value placed in the input as a number, in milliseconds since the epoch. Only the date of the epoch time is used, and the time of the epoch time is discarded. It is always represented as a string in the form callback parameters. */
@@ -92,7 +99,7 @@ export const DateTimePicker: FC<
     .setTitle(props.title);
 
   ifDef(props.value, item.setValueInMsSinceEpoch);
-  ifDef(props.onChange, item.setOnChangeAction);
+  ifDef(props.onChange, buildActionSetter(item.setOnChangeAction));
   ifDef(props.timezoneOffset, item.setTimeZoneOffsetInMins);
 
   return item;

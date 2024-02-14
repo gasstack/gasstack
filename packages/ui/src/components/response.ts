@@ -1,5 +1,16 @@
-import { EmailString, ResponseFC } from "../types";
-import { ifDef } from "../utils";
+import {
+  ContentType,
+  EffectComponent,
+  EmailString,
+  ResponseFC,
+  UpdateDraftBodyType,
+} from "../types";
+import {
+  enumContentType,
+  enumUpdateDraftBodyType,
+  getArray,
+  ifDef,
+} from "../utils";
 
 export type ActionResponseProps = {
   /**
@@ -38,6 +49,21 @@ export const ActionResponse: ResponseFC<
 
   return builder.build();
 };
+
+export function response(
+  ...effects: (EffectComponent | boolean)[]
+): GoogleAppsScript.Card_Service.ActionResponse {
+  const builder = CardService.newActionResponseBuilder();
+
+  getArray(effects).forEach((e) => {
+    if (typeof e === "boolean") builder.setStateChanged(e);
+    else if ("popCard" in e) builder.setNavigation(e);
+    else if ("setText" in e) builder.setNotification(e);
+    else if ("setUrl" in e) builder.setOpenLink(e);
+  });
+
+  return builder.build();
+}
 
 /**
  * The response object that may be returned from a callback method for compose action in a Gmail add-on.
@@ -150,9 +176,9 @@ export const UpdateDraftActionResponse: ResponseFC<
       /** The content to insert to the email draft. */
       content: string;
       /** The content type of the content to be inserted. */
-      contentType: GoogleAppsScript.Card_Service.ContentType;
+      contentType: ContentType;
       /** The type of update to be performed on an email draft. */
-      updateType?: GoogleAppsScript.Card_Service.UpdateDraftBodyType;
+      updateType?: UpdateDraftBodyType;
     };
   }
 > = (props) => {
@@ -183,10 +209,12 @@ export const UpdateDraftActionResponse: ResponseFC<
   ifDef(props.body, (body) => {
     const res = CardService.newUpdateDraftBodyAction().addUpdateContent(
       body.content,
-      body.contentType
+      enumContentType(body.contentType)
     );
 
-    ifDef(body.updateType, res.setUpdateType);
+    ifDef(body.updateType, (u) =>
+      res.setUpdateType(enumUpdateDraftBodyType(u))
+    );
     item.setUpdateDraftBodyAction(res);
   });
 

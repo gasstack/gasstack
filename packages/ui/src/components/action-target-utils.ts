@@ -1,8 +1,11 @@
-import { ActionTarget } from "../types";
+import { ActionBuilder } from "../actions-router";
+import { ActionTarget, ComposedEmailType } from "../types";
+import { buildAction, enumComposedEmailType } from "../utils";
 import { RoutedAction } from "./action";
 
 export type ActionTargetProps = {
-  action:
+  /** Sets an action that executes when the object is clicked. */
+  onClick:
     | {
         /** Sets an authorization action that opens a URL to the authorization flow when the object is clicked. This opens the URL in a new window. When the user finishes the authorization flow and returns to the application, the add-on reloads. */
         authorize: string;
@@ -14,15 +17,15 @@ export type ActionTargetProps = {
          */
         compose: {
           /** The Action parameter must specify a callback function that returns a ComposeActionResponse object configured using ComposeActionResponseBuilder.setGmailDraft(draft). */
-          action: RoutedAction<GoogleAppsScript.Card_Service.ComposeActionResponse>;
+          action:
+            | RoutedAction<GoogleAppsScript.Card_Service.ComposeActionResponse>
+            | ActionBuilder<GoogleAppsScript.Card_Service.ComposeActionResponse>;
           /** An enum value that specifies whether the composed email is a standalone or reply draft. */
-          type: GoogleAppsScript.Card_Service.ComposedEmailType;
+          type: ComposedEmailType;
         };
       }
-    | {
-        /** Sets an action that executes when the object is clicked. */
-        click: RoutedAction<GoogleAppsScript.Card_Service.ActionResponse>;
-      }
+    | RoutedAction<GoogleAppsScript.Card_Service.ActionResponse>
+    | ActionBuilder<GoogleAppsScript.Card_Service.ActionResponse>
     | {
         /**
          * Sets an action that opens a URL in a tab when the object is clicked. It is possible both to use url and an action if side effects are needed in addition to the opening of the url.
@@ -30,6 +33,7 @@ export type ActionTargetProps = {
          */
         openLink:
           | RoutedAction<GoogleAppsScript.Card_Service.ActionResponse>
+          | ActionBuilder<GoogleAppsScript.Card_Service.ActionResponse>
           | GoogleAppsScript.Card_Service.OpenLink;
       };
 };
@@ -38,23 +42,27 @@ export function withAction<T extends ActionTarget>(
   target: T,
   props: ActionTargetProps
 ): T {
-  if ("authorize" in props.action) {
+  if (typeof props.onClick === "function") {
+    const action = CardService.newAction();
+    props.onClick(action);
+    target.setOnClickAction(action);
+  } else if ("authorize" in props.onClick) {
     target.setAuthorizationAction(
       CardService.newAuthorizationAction().setAuthorizationUrl(
-        props.action.authorize
+        props.onClick.authorize
       )
     );
-  } else if ("compose" in props.action) {
+  } else if ("compose" in props.onClick) {
     target.setComposeAction(
-      props.action.compose.action,
-      props.action.compose.type
+      buildAction(props.onClick.compose.action),
+      enumComposedEmailType(props.onClick.compose.type)
     );
-  } else if ("click" in props.action) {
-    target.setOnClickAction(props.action.click);
-  } else if ("openLink" in props.action) {
-    if ("setUrl" in props.action.openLink)
-      target.setOpenLink(props.action.openLink);
-    else target.setOnClickOpenLinkAction(props.action.openLink);
+  } else if ("setFunctionName" in props.onClick) {
+    target.setOnClickAction(props.onClick);
+  } else if ("openLink" in props.onClick) {
+    if ("setUrl" in props.onClick.openLink)
+      target.setOpenLink(props.onClick.openLink);
+    else target.setOnClickOpenLinkAction(buildAction(props.onClick.openLink));
   }
 
   return target;

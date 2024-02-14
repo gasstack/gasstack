@@ -1,19 +1,23 @@
-import { FC, UrlString } from "../types";
-import { ifDef } from "../utils";
+import { FC, Icon, UrlString } from "../types";
+import { enumIcon, getArray, ifDef } from "../utils";
 import { ActionTargetProps, withAction } from "./action-target-utils";
 
 /**
  * Holds a set of Button objects that are displayed in a row.
- * @param buttons Set of Buttons.
+ * @param props Set of Buttons.
  * @returns ButtonSet object.
  */
 export const ButtonSet: FC<
   GoogleAppsScript.Card_Service.ButtonSet,
-  GoogleAppsScript.Card_Service.Button[]
-> = (buttons) => {
+  {
+    children:
+      | GoogleAppsScript.Card_Service.Button
+      | GoogleAppsScript.Card_Service.Button[];
+  }
+> = (props) => {
   const set = CardService.newButtonSet();
 
-  buttons.forEach((btn) => set.addButton(btn));
+  getArray(props.children).forEach((btn) => set.addButton(btn));
 
   return set;
 };
@@ -40,7 +44,7 @@ export const TextButton: FC<
 > = (props) => {
   const item = CardService.newTextButton().setText(props.text);
 
-  ifDef(props.altText, (item as any).setAltText);
+  ifDef(props.altText, item.setAltText);
 
   item.setDisabled(!!props.disabled);
 
@@ -62,7 +66,7 @@ export type ImageButtonProps = {
   /** Sets the alternative text of the URL which is used for accessibility. */
   altText?: string;
   /** Sets the predefined icon if the URL is not set. Default is NONE. Sets the URL of the icon if the icon is not set. */
-  icon: GoogleAppsScript.Card_Service.Icon | UrlString;
+  icon: Icon | UrlString;
 } & ActionTargetProps;
 
 /**
@@ -76,8 +80,8 @@ export const ImageButton: FC<
 > = (props) => {
   const item = CardService.newImageButton();
 
-  if (typeof props.icon === "string") item.setIconUrl(props.icon);
-  else item.setIcon(props.icon);
+  if (props.icon.startsWith("http")) item.setIconUrl(props.icon);
+  else item.setIcon(enumIcon(props.icon as Icon));
 
   ifDef(props.altText, item.setAltText);
 
