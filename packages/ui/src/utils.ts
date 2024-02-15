@@ -1,5 +1,9 @@
-import { ActionBuilder } from "./actions-router";
-import { RoutedAction } from "./components/action";
+import {
+  ActionBuilder,
+  ActionPropType,
+  ActionProvider,
+  RoutedAction,
+} from "./actions-router";
 import {
   BorderType,
   ComposedEmailType,
@@ -19,29 +23,31 @@ import {
   TextButtonStyle,
   UpdateDraftBodyType,
 } from "./types";
-//TODO: use types in components
 
 export function fnName(fn: (...args: any[]) => any) {
+  //TODO: check it is in the global scope
   if (!fn) throw new Error("Null functions not allowed");
   if (fn.name === "") throw new Error("Anonymous functions not allowed");
 
   return fn.name;
 }
 
-export function buildAction<T extends ResponseComponent>(
-  p: RoutedAction<T> | ActionBuilder<T>
-): RoutedAction<T> {
+export function buildAction<
+  T extends ResponseComponent,
+  E extends GoogleAppsScript.Addons.EventObject
+>(p: ActionPropType<T, E>): RoutedAction<T, E> {
   if (typeof p === "function") {
-    const action = CardService.newAction();
-    p(action);
-    return action as RoutedAction<T>;
+    if (p.__type__ === "action-builder") return p()() as RoutedAction<T, E>;
+    else return p() as RoutedAction<T, E>;
   } else return p;
 }
 
-export function buildActionSetter<T extends ResponseComponent>(
-  fn: (arg: GoogleAppsScript.Card_Service.Action) => void
-) {
-  return (p: RoutedAction<T> | ActionBuilder<T>) => fn(buildAction(p));
+export function buildActionSetter<
+  T extends ResponseComponent,
+  E extends GoogleAppsScript.Addons.EventObject
+>(fn: (arg: GoogleAppsScript.Card_Service.Action) => void) {
+  return (p: RoutedAction<T, E> | ActionBuilder<T, E> | ActionProvider<T, E>) =>
+    fn(buildAction(p));
 }
 
 export function getArray<T>(value: T | T[]): T[] {

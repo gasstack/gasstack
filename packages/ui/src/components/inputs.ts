@@ -1,4 +1,4 @@
-import { ActionBuilder } from "../actions-router";
+import { ActionPropType } from "../actions-router";
 import { FC, SelectionInputType, SwitchControlType } from "../types";
 import {
   buildAction,
@@ -8,7 +8,6 @@ import {
   getArray,
   ifDef,
 } from "../utils";
-import { RoutedAction } from "./action";
 
 export type SelectionInputOption = {
   text: string;
@@ -20,9 +19,10 @@ export type SelectionInputProps = {
   /** Sets the key that identifies this selection input in the event object that is generated when there is a UI interaction. Not visible to the user. Required, must be unique.   */
   fieldName: string;
   /** Sets an Action to be performed whenever the selection input changes. */
-  onChange?:
-    | RoutedAction<GoogleAppsScript.Card_Service.ActionResponse>
-    | ActionBuilder<GoogleAppsScript.Card_Service.ActionResponse>;
+  onChange?: ActionPropType<
+    GoogleAppsScript.Card_Service.ActionResponse,
+    GoogleAppsScript.Addons.EventObject
+  >;
   /** Sets the title displayed above the input field. */
   title: string;
   /** Sets the items that can be selected. */
@@ -66,9 +66,10 @@ export type SwitchProps = {
    */
   fieldName: string;
   /** Sets the action to take when the switch is toggled. */
-  onChange?:
-    | RoutedAction<GoogleAppsScript.Card_Service.ActionResponse>
-    | ActionBuilder<GoogleAppsScript.Card_Service.ActionResponse>;
+  onChange?: ActionPropType<
+    GoogleAppsScript.Card_Service.ActionResponse,
+    GoogleAppsScript.Addons.EventObject
+  >;
   /** Sets whether this switch should start as selected or unselected. */
   selected?: boolean;
   /** Sets the value that is sent as the form input when this switch is toggled on. */
@@ -107,14 +108,17 @@ export type TextInputProps = {
   /** Sets whether the input text shows on one line or multiple lines. */
   multiline?: boolean;
   /** Sets an action to be performed whenever the text input changes. */
-  onChange?:
-    | RoutedAction<GoogleAppsScript.Card_Service.ActionResponse>
-    | ActionBuilder<GoogleAppsScript.Card_Service.ActionResponse>;
+  onChange?: ActionPropType<
+    GoogleAppsScript.Card_Service.ActionResponse,
+    GoogleAppsScript.Addons.EventObject
+  >;
   /** Sets the suggestions for autocompletion in the text field. */
   suggestions?:
     | GoogleAppsScript.Card_Service.Suggestions
-    | RoutedAction<GoogleAppsScript.Card_Service.SuggestionsResponse>
-    | ActionBuilder<GoogleAppsScript.Card_Service.SuggestionsResponse>;
+    | ActionPropType<
+        GoogleAppsScript.Card_Service.SuggestionsResponse,
+        GoogleAppsScript.Addons.EventObject
+      >;
   /** Sets the pre-filled value to be set in the input field. */
   value?: string;
 };

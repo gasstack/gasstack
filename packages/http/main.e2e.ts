@@ -1,4 +1,4 @@
-import appBuilder, { respond } from "./index";
+import appBuilder, { installHttpApp, respond } from "./index";
 
 const app = appBuilder((builder) => {
   builder
@@ -17,9 +17,9 @@ const app = appBuilder((builder) => {
 });
 
 function doGet(e: GoogleAppsScript.Events.DoGet) {
-  return app(e);
+  return ContentService.createTextOutput()
+    .setMimeType(ContentService.MimeType.TEXT)
+    .setContent("BASE doGet");
 }
 
-function doPost(e: GoogleAppsScript.Events.DoGet) {
-  return app(e);
-}
+installHttpApp(app);

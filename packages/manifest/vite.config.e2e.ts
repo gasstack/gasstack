@@ -3,11 +3,15 @@ import { manifestPligin } from "./src/rollup-plugin";
 import { defineManifest } from "./src/core";
 import { test_home } from "./main.e2e";
 
+const fn = (e: any) => [];
 const manifest = defineManifest((builder) =>
   builder
     .withScopes((p) => p.withTriggerManagement())
     .withAddOn("Test", "https://logo.org", test_home, (b) =>
-      b.forCalendar((t) => t.withCurrentEventAccess("READ_WRITE")).forDrive()
+      b
+        .forCalendar((t) => t.withCurrentEventAccess("READ_WRITE"), test_home)
+        .forDrive(fn, (e) => test_home(e))
+        .forDocs(null, fn)
     )
 );
 

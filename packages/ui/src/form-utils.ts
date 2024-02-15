@@ -100,25 +100,28 @@ function parseValue(
   def: FieldDef<FieldValue>,
   evt: GoogleAppsScript.Addons.CommonEventObject
 ): FieldValue | FieldValue[] {
+  const item = evt.formInputs[field];
+  if (!item) return null;
+
   if (def.type === "string") {
     return "array" in def
-      ? evt.formInputs[field].stringInputs.value
-      : evt.formInputs[field].stringInputs.value[0];
+      ? item.stringInputs.value
+      : item.stringInputs.value[0];
   } else if (def.type === "number") {
     return "array" in def
-      ? evt.formInputs[field].stringInputs.value.map((p) => parseFloat(p))
-      : parseFloat(evt.formInputs[field].stringInputs.value[0]);
+      ? item.stringInputs.value.map((p) => parseFloat(p))
+      : parseFloat(item.stringInputs.value[0]);
   } else if (def.type === "date") {
     return {
-      msSinceEpoch: parseInt(evt.formInputs[field].dateInput.msSinceEpoch),
+      msSinceEpoch: parseInt(item.dateInput.msSinceEpoch),
     };
   } else if (def.type === "time") {
-    return evt.formInputs[field].timeInput;
+    return item.timeInput;
   } else if (def.type === "datetime") {
     return {
-      hasDate: evt.formInputs[field].dateTimeInput.hasDate,
-      hasTime: evt.formInputs[field].dateTimeInput.hasTime,
-      msSinceEpoch: parseInt(evt.formInputs[field].dateTimeInput.msSinceEpoch),
+      hasDate: item.dateTimeInput.hasDate,
+      hasTime: item.dateTimeInput.hasTime,
+      msSinceEpoch: parseInt(item.dateTimeInput.msSinceEpoch),
     };
   } else throw Error(`Unknown field type ${def.type}`);
 }

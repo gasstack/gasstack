@@ -33,6 +33,9 @@ function doGet(e: GoogleAppsScript.Events.DoGet) {
 function doPost(e: GoogleAppsScript.Events.DoPost) {
   return app(e);
 }
+
+// Or you can install it directly
+installHttpApp(app);
 ```
 
 It is possible to insert special segments in the mapping url pattern in the form of **:_name_** which will be matched against the real request setting the keys of the _params_ member of the request object.

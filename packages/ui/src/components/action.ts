@@ -1,6 +1,6 @@
 import { enumLoadIndicator, fnName, ifDef } from "../utils";
 import { ActionFC, LoadIndicator, ResponseComponent } from "../types";
-import { ActionBuilder, ActionFn } from "../actions-router";
+import { ActionBuilder, ActionFn, RoutedAction } from "../actions-router";
 
 export type ActionProps<
   T extends ResponseComponent,
@@ -21,21 +21,13 @@ export type ActionProps<
       /**
        * Managed action builder from the router.
        */
-      builder: ActionBuilder<T>;
+      builder: ActionBuilder<T, E>;
     }
   | {
       /** Sets the name of the callback function to be called. */
       fn: ActionFn<T, E>;
     }
 );
-
-export type RoutedAction<
-  T extends ResponseComponent,
-  E extends GoogleAppsScript.Addons.EventObject = GoogleAppsScript.Addons.EventObject
-> = GoogleAppsScript.Card_Service.Action & {
-  __actionResult: T;
-  __actionParam: E;
-};
 
 /**
  * Creates a Action object.
@@ -48,16 +40,20 @@ export const Action = (<
 >(
   props: ActionProps<T, E>
 ) => {
-  const action = CardService.newAction();
-
-  ifDef(props.loadIndicator, (l) =>
-    action.setLoadIndicator(enumLoadIndicator(l))
-  );
-  ifDef(props.persistClientValues, action.setPersistValues);
-
+  let action: any = null;
   if ("builder" in props) {
-    props.builder(action, props.parameters);
+    action = props.builder(
+      props.parameters,
+      props.loadIndicator,
+      props.persistClientValues
+    );
   } else {
+    action = CardService.newAction();
+
+    ifDef(props.loadIndicator, (l) =>
+      action.setLoadIndicator(enumLoadIndicator(l))
+    );
+    ifDef(props.persistClientValues, action.setPersistValues);
     action.setFunctionName(fnName(props.fn));
     ifDef(props.parameters, action.setParameters);
   }

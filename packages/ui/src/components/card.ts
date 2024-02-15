@@ -59,34 +59,37 @@ export const Card: FC<GoogleAppsScript.Card_Service.Card, CardProps> = (
   );
 
   ifDef(props.fixedFooter, builder.setFixedFooter, () => {
-    const footer = getArray(props.children).find((p) => "setPrimaryButton");
-    if (footer && "setPrimaryButton" in footer) builder.setFixedFooter(footer);
+    const footer = getArray(props.children).find(
+      (p) => "setPrimaryButton" in p
+    ) as GoogleAppsScript.Card_Service.FixedFooter;
+    ifDef(footer, builder.setFixedFooter);
   });
   ifDef(props.header, builder.setHeader, () => {
     const header = getArray(props.children).find(
       (p) => "setSubtitle" in p && "role" in p === false
-    );
-    if (header && "setSubtitle" in header) builder.setHeader(header);
+    ) as GoogleAppsScript.Card_Service.CardHeader;
+    ifDef(header, builder.setHeader);
   });
   ifDef(props.peekHeader, builder.setPeekCardHeader, () => {
     const header = getArray(props.children).find(
       (p) => "setSubtitle" in p && "role" in p && p.role === "peekHeader"
-    );
-    if (header && "setSubtitle" in header) builder.setPeekCardHeader(header);
+    ) as CardPeekHeaderType;
+    ifDef(header, builder.setPeekCardHeader);
   });
 
   ifDef(props.sections, (s) => s.forEach((p) => builder.addSection(p)));
   ifDef(props.actions, (a) => a.forEach((p) => builder.addCardAction(p)));
 
-  const s = getArray(props.children).find((p) => "sections" in p);
-  if (!!s && "sections" in s) {
-    s.sections.forEach((p) => builder.addSection(p));
-  }
+  const s = getArray(props.children).find(
+    (p) => "sections" in p
+  ) as CardSectionsType;
 
-  const a = getArray(props.children).find((p) => "actions" in p);
-  if (!!a && "actions" in a) {
-    a.actions.forEach((p) => builder.addCardAction(p));
-  }
+  ifDef(s, (s) => s.sections.forEach((p) => builder.addSection(p)));
+
+  const a = getArray(props.children).find(
+    (p) => "actions" in p
+  ) as CardActionsType;
+  ifDef(a, (a) => a.actions.forEach((p) => builder.addCardAction(p)));
 
   return builder.build();
 };
@@ -206,13 +209,17 @@ export const Divider: FC<GoogleAppsScript.Card_Service.Divider, void> = () => {
   return CardService.newDivider();
 };
 
+export type CardActionsType = {
+  actions: GoogleAppsScript.Card_Service.CardAction[];
+};
+
 /**
  * Groups CardActions of a Card.
  * @param props
  * @returns
  */
 export const CardActions: FC<
-  { actions: GoogleAppsScript.Card_Service.CardAction[] },
+  CardActionsType,
   {
     children?:
       | GoogleAppsScript.Card_Service.CardAction
@@ -222,13 +229,17 @@ export const CardActions: FC<
   return { actions: getArray(props.children) };
 };
 
+export type CardSectionsType = {
+  sections: GoogleAppsScript.Card_Service.CardSection[];
+};
+
 /**
  * Groups CardSections of a Card.
  * @param props
  * @returns
  */
 export const CardSections: FC<
-  { sections: GoogleAppsScript.Card_Service.CardSection[] },
+  CardSectionsType,
   {
     children?:
       | GoogleAppsScript.Card_Service.CardSection

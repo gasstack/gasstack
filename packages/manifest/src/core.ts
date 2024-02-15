@@ -45,12 +45,30 @@ function scopeName(key: OauthScopesKeys): OauthScopes {
   return `https://www.googleapis.com/auth/${key}`;
 }
 
-//TODO: change using globalThis or global const gasstack_manifest_{name}
-function fnName(fn: (...args: any[]) => any) {
-  if (!fn) throw new Error("Null functions not allowed");
-  if (fn.name === "") throw new Error("Anonymous functions not allowed");
+const fnPrefix = "GASSTACK_MANIFEST_FN_";
 
-  return fn.name;
+function getGlobalFunctionName(fn: (...args: any[]) => any) {
+  if (!fn) throw new Error("Null functions not allowed");
+
+  const globalThis = Function("return this;")();
+
+  const fnKey = Object.keys(globalThis).find((key) => globalThis[key] === fn);
+
+  if (!fnKey) {
+    const anonFunctions = Object.keys(globalThis).filter((key) =>
+      key.startsWith(fnPrefix)
+    );
+    const nextAnonFnId =
+      Math.max(
+        -1,
+        ...anonFunctions.map((p) => parseInt(p.replace(fnPrefix, "")))
+      ) + 1;
+    const newFnKey = `${fnPrefix}${nextAnonFnId}${
+      fn.name !== "" ? `_${fn.name}` : ""
+    }`;
+    globalThis[newFnKey] = fn;
+    return newFnKey;
+  } else return fnKey;
 }
 
 function addToOauthScopes(
@@ -86,7 +104,7 @@ function createActionsBuilder(
       const item: EditorCreateActionTriggers = {
         id: `CreateActionTrigger-${editor}-${manifest.addOns[editor].createActionTriggers.length}`,
         labelText: label,
-        runFunction: fnName(fn),
+        runFunction: getGlobalFunctionName(fn),
       };
       if (logoUrl) item.logoUrl = logoUrl;
       if (localizedLabels) item.localizedLabelText = localizedLabels;
@@ -113,7 +131,7 @@ function linkPreviewTriggersBuilder(
         patterns: patterns
           .map((p) => /^https:\/\/([^\/]+)(\/.+)?$/.exec(p))
           .map(([_, host, path]) => ({ hostPattern: host, pathPrefix: path })), //TODO: verify docs
-        runFunction: fnName(fn),
+        runFunction: getGlobalFunctionName(fn),
       };
       if (logoUrl) item.logoUrl = logoUrl;
       if (localizedLabels) item.localizedLabelText = localizedLabels;
@@ -136,7 +154,7 @@ function editorBuilder(
   return {
     onFileScopeGrant(fn: EditorFileScopeGrantFn) {
       manifest.addOns[editor].onFileScopeGrantedTrigger = {
-        runFunction: fnName(fn),
+        runFunction: getGlobalFunctionName(fn),
       };
       return this;
     },
@@ -160,7 +178,7 @@ function contextualUIBuilder(manifest: ManifestResource): ContextualUIBuilder {
     add(fn: GmailContextualTriggerFn) {
       manifest.addOns.gmail.contextualTriggers.push({
         unconditional: {},
-        onTriggerFunction: fnName(fn),
+        onTriggerFunction: getGlobalFunctionName(fn),
       });
       return this;
     },
@@ -174,7 +192,7 @@ function selectionActionBuilder(
     add(text: string, fn: GmailSelectActionFn) {
       manifest.addOns.gmail.composeTrigger.selectActions.push({
         text,
-        runFunction: fnName(fn),
+        runFunction: getGlobalFunctionName(fn),
       });
       return this;
     },
@@ -222,7 +240,7 @@ function conferenceSolutionBuilder(
           id ??
           `ConferenceSolution-${manifest.addOns.calendar.conferenceSolution.length}`,
         name,
-        onCreateFunction: fnName(createFn),
+        onCreateFunction: getGlobalFunctionName(createFn),
       };
 
       if (logoUrl) item.logoUrl = logoUrl;
@@ -249,23 +267,28 @@ function calendarBuilder(manifest: ManifestResource): CalendarBuilder {
       settings: CalendarSettingsUrlFn,
       conf: (p: ConferenceSolutionBuilder) => void
     ) {
-      manifest.addOns.calendar.createSettingsUrlFunction = fnName(settings);
+      manifest.addOns.calendar.createSettingsUrlFunction =
+        getGlobalFunctionName(settings);
       conf(conferenceSolutionBuilder(manifest));
       addToOauthScopes(manifest, "workspace.linkcreate");
       return this;
     },
     onOpen(fn: CalendarEventFn) {
-      manifest.addOns.calendar.eventOpenTrigger = { runFunction: fnName(fn) };
+      manifest.addOns.calendar.eventOpenTrigger = {
+        runFunction: getGlobalFunctionName(fn),
+      };
       return this;
     },
     onUpdate(fn: CalendarEventFn) {
-      manifest.addOns.calendar.eventUpdateTrigger = { runFunction: fnName(fn) };
+      manifest.addOns.calendar.eventUpdateTrigger = {
+        runFunction: getGlobalFunctionName(fn),
+      };
       return this;
     },
     onAttachment(label: string, fn: CalendarEventFn) {
       manifest.addOns.calendar.eventAttachmentTrigger = {
         label,
-        runFunction: fnName(fn),
+        runFunction: getGlobalFunctionName(fn),
       };
       return this;
     },
@@ -289,7 +312,7 @@ function universalActionBuilder(
       } else {
         manifest.addOns.common.universalActions.push({
           label,
-          runFunction: fnName(link),
+          runFunction: getGlobalFunctionName(link),
         });
       }
       return this;
@@ -337,7 +360,7 @@ function addOnBuilder(manifest: ManifestResource): AddOnBuilder {
       manifest.addOns.calendar = {};
       if (homepage)
         manifest.addOns.calendar.homepageTrigger = {
-          runFunction: fnName(homepage),
+          runFunction: getGlobalFunctionName(homepage),
         };
       conf?.(calendarBuilder(manifest));
       return this;
@@ -346,11 +369,11 @@ function addOnBuilder(manifest: ManifestResource): AddOnBuilder {
       manifest.addOns.drive = {};
       if (onSelected)
         manifest.addOns.drive.onItemsSelectedTrigger = {
-          runFunction: fnName(onSelected),
+          runFunction: getGlobalFunctionName(onSelected),
         };
       if (homepage)
         manifest.addOns.drive.homepageTrigger = {
-          runFunction: fnName(homepage),
+          runFunction: getGlobalFunctionName(homepage),
         };
       return this;
     },
@@ -361,7 +384,7 @@ function addOnBuilder(manifest: ManifestResource): AddOnBuilder {
       manifest.addOns.gmail = {};
       if (homepage)
         manifest.addOns.gmail.homepageTrigger = {
-          runFunction: fnName(homepage),
+          runFunction: getGlobalFunctionName(homepage),
         };
       conf?.(gmailBuilder(manifest));
       return this;
@@ -373,7 +396,7 @@ function addOnBuilder(manifest: ManifestResource): AddOnBuilder {
       manifest.addOns.docs = {};
       if (homepage)
         manifest.addOns.docs.homepageTrigger = {
-          runFunction: fnName(homepage),
+          runFunction: getGlobalFunctionName(homepage),
         };
       conf?.(editorBuilder(manifest, "docs"));
       return this;
@@ -385,7 +408,7 @@ function addOnBuilder(manifest: ManifestResource): AddOnBuilder {
       manifest.addOns.sheets = {};
       if (homepage)
         manifest.addOns.sheets.homepageTrigger = {
-          runFunction: fnName(homepage),
+          runFunction: getGlobalFunctionName(homepage),
         };
       conf?.(editorBuilder(manifest, "sheets"));
       return this;
@@ -397,7 +420,7 @@ function addOnBuilder(manifest: ManifestResource): AddOnBuilder {
       manifest.addOns.slides = {};
       if (homepage)
         manifest.addOns.slides.homepageTrigger = {
-          runFunction: fnName(homepage),
+          runFunction: getGlobalFunctionName(homepage),
         };
       conf?.(editorBuilder(manifest, "slides"));
       return this;
@@ -434,7 +457,7 @@ function manifestBuilder(manifest: ManifestResource): ManifestBuilder {
         common: {
           name,
           logoUrl,
-          homepageTrigger: { runFunction: fnName(homepage) },
+          homepageTrigger: { runFunction: getGlobalFunctionName(homepage) },
         },
       };
       conf?.(addOnBuilder(manifest));

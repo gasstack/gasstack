@@ -25,6 +25,7 @@
 ### Functions
 
 - [appBuilder](modules.md#appbuilder)
+- [installHttpApp](modules.md#installhttpapp)
 - [respond](modules.md#respond)
 
 ## References
@@ -55,7 +56,7 @@ Renames and re-exports [appBuilder](modules.md#appbuilder)
 
 #### Defined in
 
-src/types.ts:27
+[src/types.ts:27](https://github.com/gasstack/gasstack/blob/492813e/packages/http/src/types.ts#L27)
 
 ___
 
@@ -74,7 +75,7 @@ ___
 
 #### Defined in
 
-src/types.ts:20
+[src/types.ts:20](https://github.com/gasstack/gasstack/blob/492813e/packages/http/src/types.ts#L20)
 
 ___
 
@@ -98,7 +99,7 @@ ___
 
 #### Defined in
 
-src/types.ts:29
+[src/types.ts:29](https://github.com/gasstack/gasstack/blob/492813e/packages/http/src/types.ts#L29)
 
 ___
 
@@ -108,7 +109,7 @@ ___
 
 #### Defined in
 
-src/types.ts:6
+[src/types.ts:6](https://github.com/gasstack/gasstack/blob/492813e/packages/http/src/types.ts#L6)
 
 ___
 
@@ -118,7 +119,7 @@ ___
 
 #### Defined in
 
-src/types.ts:2
+[src/types.ts:2](https://github.com/gasstack/gasstack/blob/492813e/packages/http/src/types.ts#L2)
 
 ___
 
@@ -135,7 +136,7 @@ ___
 
 #### Defined in
 
-src/types.ts:9
+[src/types.ts:9](https://github.com/gasstack/gasstack/blob/492813e/packages/http/src/types.ts#L9)
 
 ___
 
@@ -156,7 +157,7 @@ ___
 
 #### Defined in
 
-src/app.ts:148
+[src/app.ts:148](https://github.com/gasstack/gasstack/blob/492813e/packages/http/src/app.ts#L148)
 
 ___
 
@@ -181,7 +182,7 @@ ___
 
 #### Defined in
 
-src/types.ts:14
+[src/types.ts:14](https://github.com/gasstack/gasstack/blob/492813e/packages/http/src/types.ts#L14)
 
 ___
 
@@ -195,7 +196,7 @@ ___
 
 #### Defined in
 
-src/types.ts:1
+[src/types.ts:1](https://github.com/gasstack/gasstack/blob/492813e/packages/http/src/types.ts#L1)
 
 ___
 
@@ -205,7 +206,7 @@ ___
 
 #### Defined in
 
-src/types.ts:18
+[src/types.ts:18](https://github.com/gasstack/gasstack/blob/492813e/packages/http/src/types.ts#L18)
 
 ___
 
@@ -219,7 +220,7 @@ ___
 
 #### Defined in
 
-src/app.ts:147
+[src/app.ts:147](https://github.com/gasstack/gasstack/blob/492813e/packages/http/src/app.ts#L147)
 
 ## Functions
 
@@ -243,7 +244,30 @@ Http Application.
 
 #### Defined in
 
-src/app.ts:198
+[src/app.ts:198](https://github.com/gasstack/gasstack/blob/492813e/packages/http/src/app.ts#L198)
+
+___
+
+### installHttpApp
+
+▸ **installHttpApp**(`app`): `void`
+
+Install an app in the Google App Script global scope. It creates both the doGet and doPost handler.
+If a handler already exists, the orgiginal handler is wrapped and executed when the http app returns an error.
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `app` | [`Application`](modules.md#application) | Http App to be installed. |
+
+#### Returns
+
+`void`
+
+#### Defined in
+
+[index.ts:12](https://github.com/gasstack/gasstack/blob/492813e/packages/http/index.ts#L12)
 
 ___
 
@@ -267,4 +291,4 @@ Http response helper/builder object.
 
 #### Defined in
 
-src/app.ts:162
+[src/app.ts:162](https://github.com/gasstack/gasstack/blob/492813e/packages/http/src/app.ts#L162)
