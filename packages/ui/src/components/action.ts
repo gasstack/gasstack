@@ -1,6 +1,7 @@
-import { enumLoadIndicator, fnName, ifDef } from "../utils";
+import { enumLoadIndicator, ifDef } from "../utils";
 import { ActionFC, LoadIndicator, ResponseComponent } from "../types";
-import { ActionBuilder, ActionFn, RoutedAction } from "../actions-router";
+import { ActionBuilder, RoutedAction } from "../actions-router";
+import { RoutedFunctionKey } from "../functions-router";
 
 export type ActionProps<
   T extends ResponseComponent,
@@ -25,7 +26,7 @@ export type ActionProps<
     }
   | {
       /** Sets the name of the callback function to be called. */
-      fn: ActionFn<T, E>;
+      functionName: RoutedFunctionKey<[E], T>;
     }
 );
 
@@ -54,7 +55,7 @@ export const Action = (<
       action.setLoadIndicator(enumLoadIndicator(l))
     );
     ifDef(props.persistClientValues, action.setPersistValues);
-    action.setFunctionName(fnName(props.fn));
+    action.setFunctionName(props.functionName);
     ifDef(props.parameters, action.setParameters);
   }
 

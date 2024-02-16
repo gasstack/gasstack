@@ -1,5 +1,6 @@
+import { RoutedFunctionKey } from "../functions-router";
 import { MimeString, OnClose, OpenAs, UrlString } from "../types";
-import { enumOnClose, enumOpenAs, fnName, ifDef } from "../utils";
+import { enumOnClose, enumOpenAs, ifDef } from "../utils";
 
 /**
  * Prepare a Navigation object that controls card navigation.
@@ -87,13 +88,13 @@ export function authorize(
 export function requestAuthorization(
   resourceName: string,
   authUrl: UrlString,
-  uiCallback?: () => GoogleAppsScript.Card_Service.Card[]
+  uiCallback?: RoutedFunctionKey<[], GoogleAppsScript.Card_Service.Card[]>
 ): void {
   const exception = CardService.newAuthorizationException()
     .setResourceDisplayName(resourceName)
     .setAuthorizationUrl(authUrl);
 
-  ifDef(uiCallback, (cb) => exception.setCustomUiCallback(fnName(cb)));
+  ifDef(uiCallback, exception.setCustomUiCallback);
 
   exception.throwException();
 }

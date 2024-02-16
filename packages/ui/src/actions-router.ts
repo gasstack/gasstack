@@ -45,10 +45,10 @@ export type ActionRouter<T extends Record<string, ActionFn<any, any>>> = {
     : never;
 };
 
-const storePropName = "GASSTACK_UI_FN_ROUTER";
+const storePropName = "GASSTACK_UI_AR";
 
 /**
- * Creates andconfigures a router to set and execute managed actions.
+ * Creates and configures a router to set and execute managed actions.
  * @param config Key-Value object of named action functions.
  * @returns Provider function, producing scoped setters for generic actions.
  */

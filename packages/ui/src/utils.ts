@@ -24,14 +24,6 @@ import {
   UpdateDraftBodyType,
 } from "./types";
 
-export function fnName(fn: (...args: any[]) => any) {
-  //TODO: check it is in the global scope
-  if (!fn) throw new Error("Null functions not allowed");
-  if (fn.name === "") throw new Error("Anonymous functions not allowed");
-
-  return fn.name;
-}
-
 export function buildAction<
   T extends ResponseComponent,
   E extends GoogleAppsScript.Addons.EventObject

@@ -34,6 +34,11 @@ import {
   Switch,
   DecoratedText,
   DatePicker,
+  Menu,
+  MenuItem,
+  MenuSeparator,
+  buildMenu,
+  createFunctionRouter,
 } from "./index";
 
 const router = createActionRouter({
@@ -54,6 +59,10 @@ const router = createActionRouter({
       return response(notify(JSON.stringify(validation.errors)));
     }
   },
+});
+
+const fnRouter = createFunctionRouter({
+  test_fn: test_fn,
 });
 
 ((g) => {
@@ -90,9 +99,31 @@ const testForm = buildForm(testFormDesc, {
   age: (p) => (p > 30 ? ["Too old"] : undefined),
 });
 
-//TODO: implement something for onOpen and for menu generation GoogleAppsScript.Base.Ui
-//TODO: write docs in README
-//TODO: configure multi target in order to have both @gasstack/ui and @gasstack/ui/jsx-runtime
+function test_menu() {
+  buildMenu(
+    SpreadsheetApp.getUi(),
+    <Menu caption="Prova">
+      <MenuItem caption="Uno" functionName={fnRouter.test_fn} />
+      <Menu caption="Due">
+        <MenuItem caption="Tre" functionName={fnRouter.test_fn} />
+        <MenuSeparator />
+      </Menu>
+    </Menu>
+  ).addToUi();
+
+  buildMenu(
+    SpreadsheetApp.getUi(),
+    <>
+      <MenuItem caption="Uno" functionName={fnRouter.test_fn} />
+      <Menu caption="Due">
+        <MenuItem caption="Tre" functionName={fnRouter.test_fn} />
+        <MenuSeparator />
+      </Menu>
+    </>,
+    SpreadsheetApp.getUi().createAddonMenu()
+  );
+}
+
 function test_home() {
   return [
     ...(

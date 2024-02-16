@@ -45,30 +45,24 @@ function scopeName(key: OauthScopesKeys): OauthScopes {
   return `https://www.googleapis.com/auth/${key}`;
 }
 
-const fnPrefix = "GASSTACK_MANIFEST_FN_";
+const storePropName = "GASSTACK_MANIFEST";
 
 function getGlobalFunctionName(fn: (...args: any[]) => any) {
   if (!fn) throw new Error("Null functions not allowed");
 
   const globalThis = Function("return this;")();
 
-  const fnKey = Object.keys(globalThis).find((key) => globalThis[key] === fn);
+  if (globalThis[storePropName] === undefined) globalThis[storePropName] = {};
 
-  if (!fnKey) {
-    const anonFunctions = Object.keys(globalThis).filter((key) =>
-      key.startsWith(fnPrefix)
-    );
-    const nextAnonFnId =
-      Math.max(
-        -1,
-        ...anonFunctions.map((p) => parseInt(p.replace(fnPrefix, "")))
-      ) + 1;
-    const newFnKey = `${fnPrefix}${nextAnonFnId}${
-      fn.name !== "" ? `_${fn.name}` : ""
-    }`;
-    globalThis[newFnKey] = fn;
-    return newFnKey;
-  } else return fnKey;
+  const store = globalThis[storePropName];
+
+  const keys = Object.keys(store);
+
+  const key = keys.find((key) => store[key] === fn) ?? `fn_${keys.length}`;
+
+  store[key] = fn;
+
+  return `${storePropName}.${key}`;
 }
 
 function addToOauthScopes(
