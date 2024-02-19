@@ -1,3 +1,5 @@
+@gasstack/rpc / [Exports](modules.md)
+
 # @gasstack/rpc
 
 The package is meant to simplify the interaction between a contained webpage and the server side of a Google Apps Script application, beeing it a webapp or an addon.
