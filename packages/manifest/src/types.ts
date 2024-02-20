@@ -1,7 +1,21 @@
 export type ManifestResource = {
+  exceptionLogging?: LoggingType;
+  executionApi?: { access: AccessType };
+  sheets?: {
+    macros: SheetMacro[];
+  };
+  webapp?: { access: AccessType; executeAs: ExecuteAsType };
   addOns?: AddOnsResource;
   oauthScopes?: OauthScopes[];
   urlFetchWhitelist?: AllowedUrlPrefix[];
+};
+
+export type Digit = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+
+export type SheetMacro = {
+  menuName: string;
+  functionName: string;
+  defaultShortcut?: `Ctrl+Alt+Shift+${Digit}`;
 };
 
 // https://developers.google.com/identity/protocols/oauth2/scopes#script
@@ -92,6 +106,10 @@ export type OauthScopes = `https://www.googleapis.com/auth/${OauthScopesKeys}`;
 
 export type UrlString = `https://${string}`;
 export type AllowedUrlPrefix = `${UrlString}/`;
+
+export type LoggingType = "NONE" | "STACKDRIVER";
+export type AccessType = "MYSELF" | "DOMAIN" | "ANYONE" | "ANYONE_ANONYMOUS";
+export type ExecuteAsType = "USER_ACCESSING" | "USER_DEPLOYING";
 
 export type AddOnsResource = {
   common: CommonResource;

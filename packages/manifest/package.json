@@ -1,6 +1,6 @@
 {
   "name": "@gasstack/manifest",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Google Apps Script manifest building and configuration utilities.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

@@ -15,6 +15,10 @@ import {
   LinkPreviewTriggerFn,
   EditorCreateActionFn,
   OauthScopesKeys,
+  LoggingType,
+  AccessType,
+  ExecuteAsType,
+  Digit,
 } from "./types";
 
 export type Builder<
@@ -34,6 +38,27 @@ export type Fluent<
 };
 
 export type ManifestBuilder = {
+  /**
+   * The location where exceptions are logged.
+   * @param value Settings.
+   */
+  withLogging(value: LoggingType): ManifestBuilder;
+  /**
+   * The script project's API executable configuration. This is only used if the project is deployed for API execution.
+   * @param access Configuration
+   */
+  withExecutionApi(access: AccessType): ManifestBuilder;
+  /**
+   * The resource configuration that defines Sheets macros.
+   * @param conf Configuration of the macro comprising the name in the macro's menu, the function to be invoked and the optional keyboard shortcut.
+   */
+  withSheetsMacro(conf: (p: SheetsMacroBuilder) => void): ManifestBuilder;
+  /**
+   * The script project's web app configuration, which is only used if the project is deployed as a web app.
+   * @param access Access configuration.
+   * @param executeAs Execution configuration.
+   */
+  withWebApp(access: AccessType, executeAs: ExecuteAsType): ManifestBuilder;
   /**
    * The resource configuration of the project if deployed as a Google Workspace Add-on.
    * @param name The name of the add-on shown in the toolbar.
@@ -73,6 +98,21 @@ export type OauthScopesBuilder = {
    * @param scopes List of scopes keys (name of the scope without the common base url).
    */
   withScopes(...scopes: OauthScopesKeys[]): OauthScopesBuilder;
+};
+
+export type SheetsMacroBuilder = {
+  add(
+    menuName: string,
+    fn: () => void,
+    shortcutNumber?: Digit
+  ): SheetsMacroBuilder;
+};
+
+export type ShortcutBuilder = {
+  Ctrl(): ShortcutBuilder;
+  Shift(): ShortcutBuilder;
+  Alt(): ShortcutBuilder;
+  Char(value: string): ShortcutBuilder;
 };
 
 export type AddOnBuilder = {

@@ -11,6 +11,7 @@ import {
   ManifestBuilder,
   OauthScopesBuilder,
   SelectActionBuilder,
+  SheetsMacroBuilder,
   UniversalActionBuilder,
 } from "./core-types";
 import {
@@ -35,6 +36,10 @@ import {
   OauthScopesKeys,
   UniversalActionFn,
   UrlString,
+  LoggingType,
+  AccessType,
+  ExecuteAsType,
+  SheetMacro,
 } from "./types";
 
 function setOf<T>(items: T[]): T[] {
@@ -136,6 +141,21 @@ function linkPreviewTriggersBuilder(
         ...patterns.map((p: any) => (p.endsWith("/") ? p : `${p}/`))
       );
 
+      return this;
+    },
+  };
+}
+
+function sheetsMacroBuilder(manifest: ManifestResource): SheetsMacroBuilder {
+  return {
+    add(menuName, fn, shortcutNumber) {
+      const macro: SheetMacro = {
+        menuName: menuName,
+        functionName: getGlobalFunctionName(fn),
+      };
+      if (shortcutNumber !== undefined)
+        macro.defaultShortcut = `Ctrl+Alt+Shift+${shortcutNumber}`;
+      manifest.sheets.macros.push(macro);
       return this;
     },
   };
@@ -441,6 +461,26 @@ function oauthScopesBuilder(manifest: ManifestResource): OauthScopesBuilder {
 
 function manifestBuilder(manifest: ManifestResource): ManifestBuilder {
   return {
+    withLogging(value: LoggingType) {
+      manifest.exceptionLogging = value;
+      return this;
+    },
+    withExecutionApi(access: AccessType) {
+      manifest.executionApi = { access: access };
+      return this;
+    },
+    withSheetsMacro(conf?: (p: SheetsMacroBuilder) => void) {
+      manifest.sheets = { macros: [] };
+      conf?.(sheetsMacroBuilder(manifest));
+      return this;
+    },
+    withWebApp(access: AccessType, executeAs: ExecuteAsType) {
+      manifest.webapp = {
+        access: access,
+        executeAs: executeAs,
+      };
+      return this;
+    },
     withAddOn(
       name: string,
       logoUrl: UrlString,
